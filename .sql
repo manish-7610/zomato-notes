@@ -1,0 +1,9 @@
+SELECT VERSION();
+
+CREATE DATABASE zomato_notes;
+
+SHOW DATABASES;
+
+USE zomato_notes;
+
+SHOW TABLES;

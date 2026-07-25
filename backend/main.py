@@ -1,13 +1,128 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from sqlalchemy import text
+
+from database import engine, Base, get_db
+
+import models
+import crud
+import schemas
 
 app = FastAPI(
     title="Zomato Notes API",
     version="1.0.0"
 )
 
+Base.metadata.create_all(bind=engine)
+
 
 @app.get("/")
 def home():
     return {
         "message": "Welcome to Zomato Notes API"
+    }
+
+
+@app.get("/db-test")
+def db_test():
+
+    with engine.connect() as connection:
+
+        result = connection.execute(text("SELECT 1"))
+
+        return {
+            "message": "Database Connected Successfully",
+            "result": result.scalar()
+        }
+
+
+@app.post("/users", response_model=schemas.UserResponse)
+def create_user(
+    user: schemas.UserCreate,
+    db: Session = Depends(get_db)
+):
+
+    existing_user = crud.get_user_by_email(db, user.email)
+
+    if existing_user:
+        raise HTTPException(
+            status_code=400,
+            detail="Email already registered"
+        )
+
+    return crud.create_user(db, user)
+
+
+# ==========================
+# NOTE APIs
+# ==========================
+
+@app.post("/notes", response_model=schemas.NoteResponse)
+def create_note(
+    note: schemas.NoteCreate,
+    db: Session = Depends(get_db)
+):
+    return crud.create_note(db, note)
+
+
+@app.get("/notes", response_model=list[schemas.NoteResponse])
+def get_notes(
+    db: Session = Depends(get_db)
+):
+    return crud.get_notes(db)
+
+
+@app.get("/notes/{note_id}", response_model=schemas.NoteResponse)
+def get_note(
+    note_id: int,
+    db: Session = Depends(get_db)
+):
+
+    note = crud.get_note(db, note_id)
+
+    if note is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Note not found"
+        )
+
+    return note
+
+
+
+@app.put("/notes/{note_id}", response_model=schemas.NoteResponse)
+def update_note(
+    note_id: int,
+    note: schemas.NoteCreate,
+    db: Session = Depends(get_db)
+):
+
+    updated_note = crud.update_note(db, note_id, note)
+
+    if updated_note is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Note not found"
+        )
+
+    return updated_note
+
+
+
+@app.delete("/notes/{note_id}")
+def delete_note(
+    note_id: int,
+    db: Session = Depends(get_db)
+):
+
+    deleted_note = crud.delete_note(db, note_id)
+
+    if deleted_note is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Note not found"
+        )
+
+    return {
+        "message": "Note deleted successfully"
     }
