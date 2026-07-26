@@ -42,7 +42,7 @@ class NoteCreate(BaseModel):
     title: str = Field(min_length=1, max_length=120)
     content: str = Field(min_length=1)
     tag: str
-    owner_id: int
+    
 
 
 class NoteUpdate(BaseModel):

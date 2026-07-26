@@ -63,9 +63,14 @@ def create_user(
 @app.post("/notes", response_model=schemas.NoteResponse)
 def create_note(
     note: schemas.NoteCreate,
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    return crud.create_note(db, note)
+    return crud.create_note(
+        db,
+        note,
+        current_user.id
+    )
 
 
 @app.get("/notes", response_model=list[schemas.NoteResponse])
@@ -73,17 +78,24 @@ def get_notes(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    
-    return crud.get_notes(db)
 
+    return crud.get_notes(
+        db,
+        current_user.id
+    )
 
 @app.get("/notes/{note_id}", response_model=schemas.NoteResponse)
 def get_note(
     note_id: int,
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
-    note = crud.get_note(db, note_id)
+    note = crud.get_note(
+        db,
+        note_id,
+        current_user.id
+    )
 
     if note is None:
         raise HTTPException(
@@ -94,15 +106,20 @@ def get_note(
     return note
 
 
-
 @app.put("/notes/{note_id}", response_model=schemas.NoteResponse)
 def update_note(
     note_id: int,
     note: schemas.NoteCreate,
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
-    updated_note = crud.update_note(db, note_id, note)
+    updated_note = crud.update_note(
+        db,
+        note_id,
+        note,
+        current_user.id
+    )
 
     if updated_note is None:
         raise HTTPException(
@@ -113,14 +130,18 @@ def update_note(
     return updated_note
 
 
-
 @app.delete("/notes/{note_id}")
 def delete_note(
     note_id: int,
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
-    deleted_note = crud.delete_note(db, note_id)
+    deleted_note = crud.delete_note(
+        db,
+        note_id,
+        current_user.id
+    )
 
     if deleted_note is None:
         raise HTTPException(
@@ -131,7 +152,6 @@ def delete_note(
     return {
         "message": "Note deleted successfully"
     }
-
 
 
 @app.post("/login")

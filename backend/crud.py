@@ -48,13 +48,17 @@ def authenticate_user(db: Session, email: str, password: str):
 # NOTE CRUD
 # ==========================
 
-def create_note(db: Session, note: schemas.NoteCreate):
+def create_note(
+    db: Session,
+    note: schemas.NoteCreate,
+    user_id: int
+):
 
     db_note = models.Note(
         title=note.title,
         content=note.content,
         tag=note.tag,
-        owner_id=note.owner_id
+        owner_id=user_id
     )
 
     db.add(db_note)
@@ -64,17 +68,45 @@ def create_note(db: Session, note: schemas.NoteCreate):
     return db_note
 
 
-def get_notes(db: Session):
-    return db.query(models.Note).all()
+def get_notes(
+    db: Session,
+    user_id: int
+):
+    return (
+        db.query(models.Note)
+        .filter(models.Note.owner_id == user_id)
+        .all()
+    )
 
 
-def get_note(db: Session, note_id: int):
-    return db.query(models.Note).filter(models.Note.id == note_id).first()
+def get_note(
+    db: Session,
+    note_id: int,
+    user_id: int
+):
+    return (
+        db.query(models.Note)
+        .filter(
+            models.Note.id == note_id,
+            models.Note.owner_id == user_id
+        )
+        .first()
+    )
 
 
-def update_note(db: Session, note_id: int, note: schemas.NoteCreate):
 
-    db_note = get_note(db, note_id)
+def update_note(
+    db: Session,
+    note_id: int,
+    note: schemas.NoteCreate,
+    user_id: int
+):
+
+    db_note = get_note(
+        db,
+        note_id,
+        user_id
+    )
 
     if db_note is None:
         return None
@@ -82,7 +114,6 @@ def update_note(db: Session, note_id: int, note: schemas.NoteCreate):
     db_note.title = note.title
     db_note.content = note.content
     db_note.tag = note.tag
-    db_note.owner_id = note.owner_id
 
     db.commit()
     db.refresh(db_note)
@@ -90,9 +121,17 @@ def update_note(db: Session, note_id: int, note: schemas.NoteCreate):
     return db_note
 
 
-def delete_note(db: Session, note_id: int):
+def delete_note(
+    db: Session,
+    note_id: int,
+    user_id: int
+):
 
-    db_note = get_note(db, note_id)
+    db_note = get_note(
+        db,
+        note_id,
+        user_id
+    )
 
     if db_note is None:
         return None
