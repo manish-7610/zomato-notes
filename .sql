@@ -1,9 +1,19 @@
-SELECT VERSION();
+-- SELECT VERSION();
 
-CREATE DATABASE zomato_notes;
+-- CREATE DATABASE zomato_notes;
 
-SHOW DATABASES;
+-- SHOW DATABASES;
+
+-- USE zomato_notes;
+
+-- SHOW TABLES;
+
 
 USE zomato_notes;
 
-SHOW TABLES;
+SELECT id, name, email, password
+FROM users;
+
+DELETE FROM users;
+
+SELECT * FROM users;

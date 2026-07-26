@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 import models
 import schemas
-
+from auth import hash_password
 
 # ==========================
 # USER CRUD
@@ -12,7 +12,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     db_user = models.User(
         name=user.name,
         email=user.email,
-        password=user.password
+        password=hash_password(user.password)
     )
 
     db.add(db_user)
@@ -29,6 +29,20 @@ def get_user_by_email(db: Session, email: str):
 def get_user_by_id(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
+
+def authenticate_user(db: Session, email: str, password: str):
+
+    user = get_user_by_email(db, email)
+
+    if not user:
+        return None
+
+    from auth import verify_password
+
+    if not verify_password(password, user.password):
+        return None
+
+    return user
 
 # ==========================
 # NOTE CRUD
