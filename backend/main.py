@@ -75,14 +75,24 @@ def create_note(
 
 @app.get("/notes", response_model=list[schemas.NoteResponse])
 def get_notes(
+    search: str = None,
+    tag: str = None,
+    skip: int = 0,
+    limit: int = 10,
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
     return crud.get_notes(
-        db,
-        current_user.id
+        db=db,
+        user_id=current_user.id,
+        search=search,
+        tag=tag,
+        skip=skip,
+        limit=limit
     )
+
+
 
 @app.get("/notes/{note_id}", response_model=schemas.NoteResponse)
 def get_note(

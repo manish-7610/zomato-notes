@@ -70,13 +70,29 @@ def create_note(
 
 def get_notes(
     db: Session,
-    user_id: int
+    user_id: int,
+    search: str = None,
+    tag: str = None,
+    skip: int = 0,
+    limit: int = 10
 ):
-    return (
-        db.query(models.Note)
-        .filter(models.Note.owner_id == user_id)
-        .all()
+
+    query = db.query(models.Note).filter(
+        models.Note.owner_id == user_id
     )
+
+    if search:
+        query = query.filter(
+            (models.Note.title.contains(search)) |
+            (models.Note.content.contains(search))
+        )
+
+    if tag:
+        query = query.filter(
+            models.Note.tag == tag
+        )
+
+    return query.offset(skip).limit(limit).all()
 
 
 def get_note(
