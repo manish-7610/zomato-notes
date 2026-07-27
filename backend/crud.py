@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from semantic_search import semantic_search
+from ai_service import get_ai_response, SYSTEM_PROMPT
+import json
 from auth import hash_password
 
 # ==========================
@@ -66,7 +68,27 @@ def create_note(
     db.commit()
     db.refresh(db_note)
 
-    return db_note
+    ai_suggestion = None
+
+    try:
+
+        ai_response = get_ai_response(
+            user_message=note.content,
+            system_prompt=SYSTEM_PROMPT
+        )
+
+        ai_suggestion = json.loads(ai_response)
+
+    except Exception as e:
+
+        print("AI Error:", e)
+
+        ai_suggestion = None
+
+    return {
+        "note": db_note,
+        "ai_suggestion": ai_suggestion
+    }
 
 
 def get_notes(
@@ -171,3 +193,31 @@ def delete_note(
     db.commit()
 
     return db_note
+
+
+
+def apply_ai_tag(
+    db: Session,
+    note_id: int,
+    tag: str,
+    user_id: int
+):
+
+    note = (
+        db.query(models.Note)
+        .filter(
+            models.Note.id == note_id,
+            models.Note.owner_id == user_id
+        )
+        .first()
+    )
+
+    if note is None:
+        return None
+
+    note.tag = tag
+
+    db.commit()
+    db.refresh(note)
+
+    return note

@@ -63,6 +63,21 @@ class NoteResponse(BaseModel):
         from_attributes = True
 
 
+class AISuggestion(BaseModel):
+    tags: list[str]
+    summary: str
+
+
+class NoteWithAISuggestion(BaseModel):
+    note: NoteResponse
+    ai_suggestion: AISuggestion | None = None
+
 
 class SemanticSearchRequest(BaseModel):
     query: str        
+
+
+
+class ApplyAITagRequest(BaseModel):
+    note_id: int
+    tag: str

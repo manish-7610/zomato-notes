@@ -60,7 +60,7 @@ def create_user(
 # NOTE APIs
 # ==========================
 
-@app.post("/notes", response_model=schemas.NoteResponse)
+@app.post("/notes", response_model=schemas.NoteWithAISuggestion)
 def create_note(
     note: schemas.NoteCreate,
     current_user: models.User = Depends(get_current_user),
@@ -108,6 +108,46 @@ def semantic_search_notes(
         user_id=current_user.id,
         query=request.query
     )
+
+
+
+@app.put(
+    "/notes/apply-ai-tag",
+    response_model=schemas.NoteResponse
+)
+def apply_ai_tag(
+
+    request: schemas.ApplyAITagRequest,
+
+    current_user: models.User = Depends(get_current_user),
+
+    db: Session = Depends(get_db)
+
+):
+
+    note = crud.apply_ai_tag(
+
+        db=db,
+
+        note_id=request.note_id,
+
+        tag=request.tag,
+
+        user_id=current_user.id
+
+    )
+
+    if note is None:
+
+        raise HTTPException(
+
+            status_code=404,
+
+            detail="Note not found"
+
+        )
+
+    return note
 
 
 @app.get("/notes/{note_id}", response_model=schemas.NoteResponse)
