@@ -93,6 +93,22 @@ def get_notes(
     )
 
 
+@app.post(
+    "/notes/semantic-search",
+    response_model=list[schemas.NoteResponse]
+)
+def semantic_search_notes(
+    request: schemas.SemanticSearchRequest,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    return crud.semantic_search_notes(
+        db=db,
+        user_id=current_user.id,
+        query=request.query
+    )
+
 
 @app.get("/notes/{note_id}", response_model=schemas.NoteResponse)
 def get_note(

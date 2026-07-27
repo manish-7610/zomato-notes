@@ -61,3 +61,8 @@ class NoteResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+
+class SemanticSearchRequest(BaseModel):
+    query: str        

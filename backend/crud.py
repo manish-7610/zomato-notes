@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 import models
 import schemas
+from semantic_search import semantic_search
 from auth import hash_password
 
 # ==========================
@@ -93,6 +94,20 @@ def get_notes(
         )
 
     return query.offset(skip).limit(limit).all()
+
+
+def semantic_search_notes(
+    db: Session,
+    user_id: int,
+    query: str
+):
+    notes = (
+        db.query(models.Note)
+        .filter(models.Note.owner_id == user_id)
+        .all()
+    )
+
+    return semantic_search(query, notes)
 
 
 def get_note(
