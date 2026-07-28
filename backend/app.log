@@ -1,0 +1,244 @@
+2026-07-28 08:40:30,551 | INFO | SELECT DATABASE()
+2026-07-28 08:40:30,552 | INFO | [raw sql] {}
+2026-07-28 08:40:30,553 | INFO | SELECT @@sql_mode
+2026-07-28 08:40:30,553 | INFO | [raw sql] {}
+2026-07-28 08:40:30,554 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:40:30,555 | INFO | [raw sql] {}
+2026-07-28 08:40:30,556 | INFO | BEGIN (implicit)
+2026-07-28 08:40:30,557 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:40:30,558 | INFO | [raw sql] {}
+2026-07-28 08:40:30,565 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:40:30,565 | INFO | [raw sql] {}
+2026-07-28 08:40:30,569 | INFO | COMMIT
+2026-07-28 08:41:40,451 | INFO | SELECT DATABASE()
+2026-07-28 08:41:40,452 | INFO | [raw sql] {}
+2026-07-28 08:41:40,454 | INFO | SELECT @@sql_mode
+2026-07-28 08:41:40,456 | INFO | [raw sql] {}
+2026-07-28 08:41:40,457 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:41:40,457 | INFO | [raw sql] {}
+2026-07-28 08:41:40,459 | INFO | BEGIN (implicit)
+2026-07-28 08:41:40,460 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:41:40,460 | INFO | [raw sql] {}
+2026-07-28 08:41:40,470 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:41:40,470 | INFO | [raw sql] {}
+2026-07-28 08:41:40,473 | INFO | COMMIT
+2026-07-28 08:43:34,486 | INFO | SELECT DATABASE()
+2026-07-28 08:43:34,487 | INFO | [raw sql] {}
+2026-07-28 08:43:34,488 | INFO | SELECT @@sql_mode
+2026-07-28 08:43:34,489 | INFO | [raw sql] {}
+2026-07-28 08:43:34,490 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:43:34,490 | INFO | [raw sql] {}
+2026-07-28 08:43:34,491 | INFO | BEGIN (implicit)
+2026-07-28 08:43:34,492 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:43:34,492 | INFO | [raw sql] {}
+2026-07-28 08:43:34,506 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:43:34,507 | INFO | [raw sql] {}
+2026-07-28 08:43:34,511 | INFO | COMMIT
+2026-07-28 08:43:58,744 | INFO | SELECT DATABASE()
+2026-07-28 08:43:58,744 | INFO | [raw sql] {}
+2026-07-28 08:43:58,746 | INFO | SELECT @@sql_mode
+2026-07-28 08:43:58,746 | INFO | [raw sql] {}
+2026-07-28 08:43:58,747 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:43:58,747 | INFO | [raw sql] {}
+2026-07-28 08:43:58,749 | INFO | BEGIN (implicit)
+2026-07-28 08:43:58,749 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:43:58,750 | INFO | [raw sql] {}
+2026-07-28 08:43:58,755 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:43:58,756 | INFO | [raw sql] {}
+2026-07-28 08:43:58,759 | INFO | COMMIT
+2026-07-28 08:44:08,681 | INFO | BEGIN (implicit)
+2026-07-28 08:44:08,686 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-28 08:44:08,687 | INFO | [generated in 0.00071s] {'email_1': 'manish5@example.com', 'param_1': 1}
+2026-07-28 08:44:09,040 | INFO | ROLLBACK
+2026-07-28 08:46:01,991 | INFO | SELECT DATABASE()
+2026-07-28 08:46:01,992 | INFO | [raw sql] {}
+2026-07-28 08:46:01,994 | INFO | SELECT @@sql_mode
+2026-07-28 08:46:01,994 | INFO | [raw sql] {}
+2026-07-28 08:46:01,995 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:46:01,995 | INFO | [raw sql] {}
+2026-07-28 08:46:01,997 | INFO | BEGIN (implicit)
+2026-07-28 08:46:01,998 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:46:02,000 | INFO | [raw sql] {}
+2026-07-28 08:46:02,009 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:46:02,009 | INFO | [raw sql] {}
+2026-07-28 08:46:02,012 | INFO | COMMIT
+2026-07-28 08:47:55,173 | INFO | SELECT DATABASE()
+2026-07-28 08:47:55,173 | INFO | [raw sql] {}
+2026-07-28 08:47:55,175 | INFO | SELECT @@sql_mode
+2026-07-28 08:47:55,175 | INFO | [raw sql] {}
+2026-07-28 08:47:55,176 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:47:55,176 | INFO | [raw sql] {}
+2026-07-28 08:47:55,177 | INFO | BEGIN (implicit)
+2026-07-28 08:47:55,178 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:47:55,178 | INFO | [raw sql] {}
+2026-07-28 08:47:55,186 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:47:55,186 | INFO | [raw sql] {}
+2026-07-28 08:47:55,190 | INFO | COMMIT
+2026-07-28 08:48:23,666 | INFO | SELECT DATABASE()
+2026-07-28 08:48:23,667 | INFO | [raw sql] {}
+2026-07-28 08:48:23,668 | INFO | SELECT @@sql_mode
+2026-07-28 08:48:23,669 | INFO | [raw sql] {}
+2026-07-28 08:48:23,669 | INFO | SELECT @@lower_case_table_names
+2026-07-28 08:48:23,670 | INFO | [raw sql] {}
+2026-07-28 08:48:23,671 | INFO | BEGIN (implicit)
+2026-07-28 08:48:23,672 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 08:48:23,672 | INFO | [raw sql] {}
+2026-07-28 08:48:23,677 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 08:48:23,677 | INFO | [raw sql] {}
+2026-07-28 08:48:23,680 | INFO | COMMIT
+2026-07-28 08:48:57,544 | INFO | GET /docs Status=200 Time=1.04ms
+2026-07-28 08:48:57,963 | INFO | GET /openapi.json Status=200 Time=200.64ms
+2026-07-28 08:49:06,756 | INFO | BEGIN (implicit)
+2026-07-28 08:49:06,761 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-28 08:49:06,762 | INFO | [generated in 0.00064s] {'email_1': 'manish5@example.com', 'param_1': 1}
+2026-07-28 08:49:07,556 | INFO | POST /login Status=200 Time=814.95ms
+2026-07-28 08:49:07,558 | INFO | ROLLBACK
+2026-07-28 08:49:49,492 | INFO | BEGIN (implicit)
+2026-07-28 08:49:49,513 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-28 08:49:49,514 | INFO | [cached since 42.75s ago] {'email_1': 'manish5@example.com', 'param_1': 1}
+2026-07-28 08:49:49,519 | INFO | SELECT notes.id AS notes_id, notes.title AS notes_title, notes.content AS notes_content, notes.tag AS notes_tag, notes.owner_id AS notes_owner_id, notes.created_at AS notes_created_at 
+FROM notes 
+WHERE notes.owner_id = %(owner_id_1)s
+2026-07-28 08:49:49,521 | INFO | [generated in 0.00248s] {'owner_id_1': 3}
+2026-07-28 08:49:49,633 | INFO | POST /notes/semantic-search Status=200 Time=144.98ms
+2026-07-28 08:49:49,634 | INFO | ROLLBACK
+2026-07-28 08:50:22,261 | INFO | BEGIN (implicit)
+2026-07-28 08:50:22,262 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-28 08:50:22,262 | INFO | [cached since 75.5s ago] {'email_1': 'manish5@example.com', 'param_1': 1}
+2026-07-28 08:50:22,265 | INFO | SELECT notes.id AS notes_id, notes.title AS notes_title, notes.content AS notes_content, notes.tag AS notes_tag, notes.owner_id AS notes_owner_id, notes.created_at AS notes_created_at 
+FROM notes 
+WHERE notes.owner_id = %(owner_id_1)s
+2026-07-28 08:50:22,265 | INFO | [cached since 32.75s ago] {'owner_id_1': 3}
+2026-07-28 08:50:22,329 | INFO | POST /notes/semantic-search Status=200 Time=70.43ms
+2026-07-28 08:50:22,330 | INFO | ROLLBACK
+2026-07-28 09:13:48,894 | INFO | SELECT DATABASE()
+2026-07-28 09:13:48,894 | INFO | [raw sql] {}
+2026-07-28 09:13:48,896 | INFO | SELECT @@sql_mode
+2026-07-28 09:13:48,896 | INFO | [raw sql] {}
+2026-07-28 09:13:48,897 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:13:48,897 | INFO | [raw sql] {}
+2026-07-28 09:13:48,899 | INFO | BEGIN (implicit)
+2026-07-28 09:13:48,900 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:13:48,900 | INFO | [raw sql] {}
+2026-07-28 09:13:48,907 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:13:48,907 | INFO | [raw sql] {}
+2026-07-28 09:13:48,909 | INFO | COMMIT
+2026-07-28 09:14:12,283 | INFO | SELECT DATABASE()
+2026-07-28 09:14:12,283 | INFO | [raw sql] {}
+2026-07-28 09:14:12,285 | INFO | SELECT @@sql_mode
+2026-07-28 09:14:12,285 | INFO | [raw sql] {}
+2026-07-28 09:14:12,286 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:14:12,287 | INFO | [raw sql] {}
+2026-07-28 09:14:12,290 | INFO | BEGIN (implicit)
+2026-07-28 09:14:12,291 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:14:12,292 | INFO | [raw sql] {}
+2026-07-28 09:14:12,299 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:14:12,300 | INFO | [raw sql] {}
+2026-07-28 09:14:12,302 | INFO | COMMIT
+2026-07-28 09:14:12,386 | INFO | GET /docs Status=200 Time=0.44ms
+2026-07-28 09:14:13,073 | INFO | GET /openapi.json Status=200 Time=180.34ms
+2026-07-28 09:14:16,625 | INFO | BEGIN (implicit)
+2026-07-28 09:14:16,629 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-28 09:14:16,629 | INFO | [generated in 0.00052s] {'email_1': 'manish5@example.com', 'param_1': 1}
+2026-07-28 09:14:16,987 | INFO | POST /login Status=200 Time=373.55ms
+2026-07-28 09:14:16,988 | INFO | ROLLBACK
+2026-07-28 09:14:23,294 | INFO | GET /health Status=200 Time=1.59ms
+2026-07-28 09:15:31,914 | INFO | SELECT DATABASE()
+2026-07-28 09:15:31,915 | INFO | [raw sql] {}
+2026-07-28 09:15:31,916 | INFO | SELECT @@sql_mode
+2026-07-28 09:15:31,917 | INFO | [raw sql] {}
+2026-07-28 09:15:31,917 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:15:31,918 | INFO | [raw sql] {}
+2026-07-28 09:15:31,919 | INFO | BEGIN (implicit)
+2026-07-28 09:15:31,920 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:15:31,920 | INFO | [raw sql] {}
+2026-07-28 09:15:31,926 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:15:31,926 | INFO | [raw sql] {}
+2026-07-28 09:15:31,929 | INFO | COMMIT
+2026-07-28 09:16:48,320 | INFO | SELECT DATABASE()
+2026-07-28 09:16:48,322 | INFO | [raw sql] {}
+2026-07-28 09:16:48,347 | INFO | SELECT @@sql_mode
+2026-07-28 09:16:48,348 | INFO | [raw sql] {}
+2026-07-28 09:16:48,349 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:16:48,353 | INFO | [raw sql] {}
+2026-07-28 09:16:48,355 | INFO | BEGIN (implicit)
+2026-07-28 09:16:48,356 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:16:48,356 | INFO | [raw sql] {}
+2026-07-28 09:16:48,362 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:16:48,364 | INFO | [raw sql] {}
+2026-07-28 09:16:48,388 | INFO | COMMIT
+2026-07-28 09:17:13,564 | INFO | SELECT DATABASE()
+2026-07-28 09:17:13,564 | INFO | [raw sql] {}
+2026-07-28 09:17:13,566 | INFO | SELECT @@sql_mode
+2026-07-28 09:17:13,566 | INFO | [raw sql] {}
+2026-07-28 09:17:13,567 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:17:13,568 | INFO | [raw sql] {}
+2026-07-28 09:17:13,570 | INFO | BEGIN (implicit)
+2026-07-28 09:17:13,571 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:17:13,572 | INFO | [raw sql] {}
+2026-07-28 09:17:13,584 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:17:13,584 | INFO | [raw sql] {}
+2026-07-28 09:17:13,587 | INFO | COMMIT
+2026-07-28 09:17:51,121 | INFO | SELECT DATABASE()
+2026-07-28 09:17:51,122 | INFO | [raw sql] {}
+2026-07-28 09:17:51,124 | INFO | SELECT @@sql_mode
+2026-07-28 09:17:51,124 | INFO | [raw sql] {}
+2026-07-28 09:17:51,125 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:17:51,126 | INFO | [raw sql] {}
+2026-07-28 09:17:51,127 | INFO | BEGIN (implicit)
+2026-07-28 09:17:51,128 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:17:51,128 | INFO | [raw sql] {}
+2026-07-28 09:17:51,135 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:17:51,135 | INFO | [raw sql] {}
+2026-07-28 09:17:51,139 | INFO | COMMIT
+2026-07-28 09:19:25,165 | INFO | SELECT DATABASE()
+2026-07-28 09:19:25,166 | INFO | [raw sql] {}
+2026-07-28 09:19:25,168 | INFO | SELECT @@sql_mode
+2026-07-28 09:19:25,169 | INFO | [raw sql] {}
+2026-07-28 09:19:25,170 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:19:25,171 | INFO | [raw sql] {}
+2026-07-28 09:19:25,174 | INFO | BEGIN (implicit)
+2026-07-28 09:19:25,174 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:19:25,175 | INFO | [raw sql] {}
+2026-07-28 09:19:25,180 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:19:25,181 | INFO | [raw sql] {}
+2026-07-28 09:19:25,188 | INFO | COMMIT
+2026-07-28 09:19:49,553 | INFO | SELECT DATABASE()
+2026-07-28 09:19:49,553 | INFO | [raw sql] {}
+2026-07-28 09:19:49,555 | INFO | SELECT @@sql_mode
+2026-07-28 09:19:49,555 | INFO | [raw sql] {}
+2026-07-28 09:19:49,556 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:19:49,557 | INFO | [raw sql] {}
+2026-07-28 09:19:49,558 | INFO | BEGIN (implicit)
+2026-07-28 09:19:49,559 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:19:49,559 | INFO | [raw sql] {}
+2026-07-28 09:19:49,563 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:19:49,563 | INFO | [raw sql] {}
+2026-07-28 09:19:49,567 | INFO | COMMIT
+2026-07-28 09:22:27,071 | INFO | SELECT DATABASE()
+2026-07-28 09:22:27,071 | INFO | [raw sql] {}
+2026-07-28 09:22:27,072 | INFO | SELECT @@sql_mode
+2026-07-28 09:22:27,073 | INFO | [raw sql] {}
+2026-07-28 09:22:27,074 | INFO | SELECT @@lower_case_table_names
+2026-07-28 09:22:27,074 | INFO | [raw sql] {}
+2026-07-28 09:22:27,076 | INFO | BEGIN (implicit)
+2026-07-28 09:22:27,076 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-28 09:22:27,076 | INFO | [raw sql] {}
+2026-07-28 09:22:27,080 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-28 09:22:27,080 | INFO | [raw sql] {}
+2026-07-28 09:22:27,082 | INFO | COMMIT

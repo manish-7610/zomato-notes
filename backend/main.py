@@ -1,29 +1,98 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base, get_db
-
+import time
 import models
 import crud
 import schemas
 from auth import create_access_token, get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
-
+from logger import logger
+from fastapi import BackgroundTasks
 
 app = FastAPI(
     title="Zomato Notes API",
     version="1.0.0"
 )
 
+
+
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+
+    start_time = time.time()
+
+    response = await call_next(request)
+
+    process_time = round((time.time() - start_time) * 1000, 2)
+
+    logger.info(
+        f"{request.method} {request.url.path} "
+        f"Status={response.status_code} "
+        f"Time={process_time}ms"
+    )
+
+    return response
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(
+    request: Request,
+    exc: Exception
+):
+    logger.exception(exc)
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "message": "Internal Server Error"
+        }
+    )
+
+
 Base.metadata.create_all(bind=engine)
 
 
 @app.get("/")
 def home():
+
     return {
-        "message": "Welcome to Zomato Notes API"
+        "message": "Welcome to Zomato Notes API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
     }
+
+def process_note_background(note_id: int):
+    import time
+
+    print(f"Started indexing note {note_id}")
+
+    time.sleep(2)
+
+    logger.info(f"Background indexing completed for Note ID {note_id}")
+
+    print(f"Completed indexing note {note_id}")
+
 
 
 @app.get("/db-test")
@@ -37,6 +106,16 @@ def db_test():
             "message": "Database Connected Successfully",
             "result": result.scalar()
         }
+
+
+@app.get("/health")
+def health_check():
+
+    return {
+        "status": "healthy",
+        "application": "Zomato Notes API",
+        "version": "1.0.0"
+    }
 
 
 @app.post("/users", response_model=schemas.UserResponse)
@@ -63,16 +142,22 @@ def create_user(
 @app.post("/notes", response_model=schemas.NoteWithAISuggestion)
 def create_note(
     note: schemas.NoteCreate,
+    background_tasks: BackgroundTasks,
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    return crud.create_note(
+    result = crud.create_note(
         db,
         note,
         current_user.id
     )
 
+    background_tasks.add_task(
+        process_note_background,
+        result["note"].id
+    )
 
+    return result
 @app.get("/notes", response_model=list[schemas.NoteResponse])
 def get_notes(
     search: str = None,
