@@ -118,6 +118,7 @@ def get_notes(
     return query.offset(skip).limit(limit).all()
 
 
+
 def semantic_search_notes(
     db: Session,
     user_id: int,
@@ -129,7 +130,17 @@ def semantic_search_notes(
         .all()
     )
 
-    return semantic_search(query, notes)
+    search_results = semantic_search(
+        query=query,
+        notes=notes,
+        top_k=5,
+        threshold=0.30
+    )
+
+    return {
+        "results": search_results
+    }
+
 
 
 def get_note(

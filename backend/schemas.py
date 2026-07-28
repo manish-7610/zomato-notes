@@ -81,3 +81,13 @@ class SemanticSearchRequest(BaseModel):
 class ApplyAITagRequest(BaseModel):
     note_id: int
     tag: str
+
+
+
+class SemanticSearchResult(BaseModel):
+    score: float
+    note: NoteResponse
+
+
+class SemanticSearchResponse(BaseModel):
+    results: list[SemanticSearchResult]

@@ -95,7 +95,7 @@ def get_notes(
 
 @app.post(
     "/notes/semantic-search",
-    response_model=list[schemas.NoteResponse]
+    response_model=schemas.SemanticSearchResponse
 )
 def semantic_search_notes(
     request: schemas.SemanticSearchRequest,
