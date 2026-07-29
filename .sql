@@ -11,9 +11,9 @@
 
 USE zomato_notes;
 
-SELECT id, name, email, password
-FROM users;
+-- SELECT id, name, email, password
+-- FROM users;
 
-DELETE FROM users;
+-- DELETE FROM users;
 
 SELECT * FROM users;

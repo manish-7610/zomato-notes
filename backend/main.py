@@ -13,6 +13,15 @@ from auth import create_access_token, get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 from logger import logger
 from fastapi import BackgroundTasks
+from fastapi import UploadFile, File
+from algorithms import (
+    insertion_sort,
+    linear_search,
+    binary_search,
+    quick_find
+)
+
+
 
 app = FastAPI(
     title="Zomato Notes API",
@@ -22,6 +31,8 @@ app = FastAPI(
 
 
 origins = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
     "http://127.0.0.1:5500",
     "http://localhost:5500",
 ]
@@ -33,7 +44,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -178,6 +188,72 @@ def get_notes(
     )
 
 
+@app.get("/notes/search")
+def search_notes(
+    keyword: str,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    notes = crud.get_notes(
+        db=db,
+        user_id=current_user.id,
+        search=None,
+        tag=None,
+        skip=0,
+        limit=1000
+    )
+
+    results = linear_search(notes, keyword)
+
+    return results
+
+
+@app.get("/notes/lookup")
+def lookup_note(
+    title: str,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    notes = crud.get_notes(
+        db=db,
+        user_id=current_user.id,
+        search=None,
+        tag=None,
+        skip=0,
+        limit=1000
+    )
+
+    sorted_notes = insertion_sort(notes)
+
+    result = binary_search(sorted_notes, title)
+
+    if not result:
+        raise HTTPException(status_code=404, detail="Note not found")
+
+    return result
+
+
+@app.get("/notes/quick-find")
+def quick_find_notes(
+    keyword: str,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    notes = crud.get_notes(
+        db=db,
+        user_id=current_user.id,
+        search=None,
+        tag=None,
+        skip=0,
+        limit=1000
+    )
+
+    return quick_find(notes, keyword)
+
+
+
 @app.post(
     "/notes/semantic-search",
     response_model=schemas.SemanticSearchResponse
@@ -303,6 +379,53 @@ def delete_note(
     return {
         "message": "Note deleted successfully"
     }
+
+
+
+@app.post("/notes/import")
+async def import_notes(
+    file: UploadFile = File(...),
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    content = await file.read()
+
+    text = content.decode("utf-8")
+
+    notes = []
+
+    for line in text.splitlines():
+
+        if not line.strip():
+            continue
+
+        parts = line.split("|")
+
+        if len(parts) != 3:
+            continue
+
+        title, body, tag = parts
+
+        note = schemas.NoteCreate(
+            title=title.strip(),
+            content=body.strip(),
+            tag=tag.strip()
+        )
+
+        crud.create_note(
+            db,
+            note,
+            current_user.id
+        )
+
+        notes.append(title)
+
+    return {
+        "message": "Import Successful",
+        "count": len(notes)
+    }
+
 
 
 @app.post("/login")

@@ -61,6 +61,8 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ):
+    print("TOKEN RECEIVED:", token)
+
     try:
         payload = jwt.decode(
             token,
@@ -68,21 +70,21 @@ def get_current_user(
             algorithms=[ALGORITHM]
         )
 
+        print("PAYLOAD:", payload)
+
         email = payload.get("sub")
+        print("EMAIL:", email)
 
-        if email is None:
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid token"
-            )
-
-    except JWTError:
+    except Exception as e:
+        print("JWT ERROR:", e)
         raise HTTPException(
             status_code=401,
-            detail="Invalid token"
+            detail=str(e)
         )
 
     user = crud.get_user_by_email(db, email)
+
+    print("USER:", user)
 
     if user is None:
         raise HTTPException(
