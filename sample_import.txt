@@ -1,0 +1,10 @@
+Complete FastAPI project
+Practice SQLAlchemy relationships
+Study Semantic Search algorithms
+Prepare capstone presentation
+Review JWT Authentication
+Learn AI tagging concepts
+Optimize database queries
+Finish frontend UI improvements
+Test Import Notes feature
+Deploy project to GitHub
