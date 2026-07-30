@@ -14234,3 +14234,144 @@ WHERE notes.owner_id = %(owner_id_1)s
 2026-07-30 13:38:40,958 | INFO | ROLLBACK
 2026-07-30 13:38:41,155 | INFO | POST /notes/semantic-search Status=200 Time=718.75ms
 2026-07-30 13:38:41,157 | INFO | ROLLBACK
+2026-07-30 14:29:46,972 | INFO | SELECT DATABASE()
+2026-07-30 14:29:46,973 | INFO | [raw sql] {}
+2026-07-30 14:29:46,976 | INFO | SELECT @@sql_mode
+2026-07-30 14:29:46,976 | INFO | [raw sql] {}
+2026-07-30 14:29:46,977 | INFO | SELECT @@lower_case_table_names
+2026-07-30 14:29:46,978 | INFO | [raw sql] {}
+2026-07-30 14:29:46,980 | INFO | BEGIN (implicit)
+2026-07-30 14:29:46,981 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-30 14:29:46,981 | INFO | [raw sql] {}
+2026-07-30 14:29:47,003 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-30 14:29:47,003 | INFO | [raw sql] {}
+2026-07-30 14:29:47,007 | INFO | COMMIT
+2026-07-30 14:29:57,953 | INFO | GET /docs Status=200 Time=0.8ms
+2026-07-30 14:29:58,361 | INFO | GET /openapi.json Status=200 Time=151.58ms
+2026-07-30 14:30:03,817 | INFO | BEGIN (implicit)
+2026-07-30 14:30:03,822 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:30:03,823 | INFO | [generated in 0.00067s] {'email_1': 'manish5@example.com', 'param_1': 1}
+2026-07-30 14:30:04,493 | INFO | POST /login Status=200 Time=696.22ms
+2026-07-30 14:30:04,495 | INFO | ROLLBACK
+2026-07-30 14:30:07,981 | INFO | OPTIONS /notes Status=200 Time=0.49ms
+2026-07-30 14:30:08,019 | INFO | BEGIN (implicit)
+2026-07-30 14:30:08,020 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:30:08,021 | INFO | [cached since 4.199s ago] {'email_1': 'admin@gamil.com', 'param_1': 1}
+2026-07-30 14:30:08,030 | INFO | SELECT notes.id AS notes_id, notes.title AS notes_title, notes.content AS notes_content, notes.tag AS notes_tag, notes.owner_id AS notes_owner_id, notes.created_at AS notes_created_at 
+FROM notes 
+WHERE notes.owner_id = %(owner_id_1)s 
+ LIMIT %(param_1)s, %(param_2)s
+2026-07-30 14:30:08,031 | INFO | [generated in 0.00089s] {'owner_id_1': 6, 'param_1': 0, 'param_2': 10}
+2026-07-30 14:30:08,045 | INFO | GET /notes Status=200 Time=39.43ms
+2026-07-30 14:30:08,055 | INFO | ROLLBACK
+2026-07-30 14:30:09,138 | INFO | BEGIN (implicit)
+2026-07-30 14:30:09,140 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:30:09,144 | INFO | [cached since 5.322s ago] {'email_1': 'admin@gamil.com', 'param_1': 1}
+2026-07-30 14:30:09,152 | INFO | SELECT notes.id AS notes_id, notes.title AS notes_title, notes.content AS notes_content, notes.tag AS notes_tag, notes.owner_id AS notes_owner_id, notes.created_at AS notes_created_at 
+FROM notes 
+WHERE notes.owner_id = %(owner_id_1)s 
+ LIMIT %(param_1)s, %(param_2)s
+2026-07-30 14:30:09,156 | INFO | [cached since 1.126s ago] {'owner_id_1': 6, 'param_1': 0, 'param_2': 10}
+2026-07-30 14:30:09,165 | INFO | GET /notes Status=200 Time=33.73ms
+2026-07-30 14:30:09,167 | INFO | ROLLBACK
+2026-07-30 14:30:52,443 | INFO | OPTIONS /users Status=200 Time=0.28ms
+2026-07-30 14:30:52,457 | INFO | BEGIN (implicit)
+2026-07-30 14:30:52,458 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:30:52,458 | INFO | [cached since 48.64s ago] {'email_1': 'finaltest@gmail.com', 'param_1': 1}
+2026-07-30 14:30:53,031 | INFO | INSERT INTO users (name, email, password) VALUES (%(name)s, %(email)s, %(password)s)
+2026-07-30 14:30:53,031 | INFO | [generated in 0.00057s] {'name': 'Final Test', 'email': 'finaltest@gmail.com', 'password': '$2b$12$zfMChsMOiZ7IazvqRTcmQOt2Ovf7tJg0ghBB6l1vMD8GWnHV/MWQu'}
+2026-07-30 14:30:53,041 | INFO | COMMIT
+2026-07-30 14:30:53,050 | INFO | BEGIN (implicit)
+2026-07-30 14:30:53,052 | INFO | SELECT users.id, users.name, users.email, users.password, users.created_at 
+FROM users 
+WHERE users.id = %(pk_1)s
+2026-07-30 14:30:53,053 | INFO | [generated in 0.00067s] {'pk_1': 7}
+2026-07-30 14:30:53,057 | INFO | POST /users Status=200 Time=611.26ms
+2026-07-30 14:30:53,060 | INFO | ROLLBACK
+2026-07-30 14:30:55,037 | INFO | BEGIN (implicit)
+2026-07-30 14:30:55,038 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:30:55,038 | INFO | [cached since 51.22s ago] {'email_1': 'finaltest@gmail.com', 'param_1': 1}
+2026-07-30 14:30:55,746 | INFO | POST /login Status=200 Time=712.3ms
+2026-07-30 14:30:55,748 | INFO | ROLLBACK
+2026-07-30 14:31:09,524 | INFO | OPTIONS /notes/import Status=200 Time=0.52ms
+2026-07-30 14:31:09,536 | INFO | BEGIN (implicit)
+2026-07-30 14:31:09,537 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:31:09,537 | INFO | [cached since 65.71s ago] {'email_1': 'finaltest@gmail.com', 'param_1': 1}
+2026-07-30 14:31:09,543 | INFO | INSERT INTO notes (title, content, tag, owner_id) VALUES (%(title)s, %(content)s, %(tag)s, %(owner_id)s)
+2026-07-30 14:31:09,553 | INFO | [generated in 0.00908s] {'title': 'Gym Plan', 'content': 'Do squats and lunges', 'tag': 'Fitness', 'owner_id': 7}
+2026-07-30 14:31:09,560 | INFO | COMMIT
+2026-07-30 14:31:09,570 | INFO | BEGIN (implicit)
+2026-07-30 14:31:09,572 | INFO | SELECT notes.id, notes.title, notes.content, notes.tag, notes.owner_id, notes.created_at 
+FROM notes 
+WHERE notes.id = %(pk_1)s
+2026-07-30 14:31:09,573 | INFO | [generated in 0.00054s] {'pk_1': 25}
+2026-07-30 14:31:09,577 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = %(pk_1)s
+2026-07-30 14:31:09,579 | INFO | [generated in 0.00201s] {'pk_1': 7}
+2026-07-30 14:31:09,584 | INFO | INSERT INTO notes (title, content, tag, owner_id) VALUES (%(title)s, %(content)s, %(tag)s, %(owner_id)s)
+2026-07-30 14:31:09,585 | INFO | [cached since 0.04175s ago] {'title': 'Shopping List', 'content': 'Buy milk and eggs', 'tag': 'Personal', 'owner_id': 7}
+2026-07-30 14:31:09,588 | INFO | COMMIT
+2026-07-30 14:31:09,593 | INFO | BEGIN (implicit)
+2026-07-30 14:31:09,594 | INFO | SELECT notes.id, notes.title, notes.content, notes.tag, notes.owner_id, notes.created_at 
+FROM notes 
+WHERE notes.id = %(pk_1)s
+2026-07-30 14:31:09,596 | INFO | [cached since 0.02341s ago] {'pk_1': 26}
+2026-07-30 14:31:09,600 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.id = %(pk_1)s
+2026-07-30 14:31:09,605 | INFO | [cached since 0.02828s ago] {'pk_1': 7}
+2026-07-30 14:31:09,608 | INFO | INSERT INTO notes (title, content, tag, owner_id) VALUES (%(title)s, %(content)s, %(tag)s, %(owner_id)s)
+2026-07-30 14:31:09,608 | INFO | [cached since 0.06486s ago] {'title': 'Read Book', 'content': 'Finish Clean Code', 'tag': 'Tech', 'owner_id': 7}
+2026-07-30 14:31:09,610 | INFO | COMMIT
+2026-07-30 14:31:09,615 | INFO | BEGIN (implicit)
+2026-07-30 14:31:09,621 | INFO | SELECT notes.id, notes.title, notes.content, notes.tag, notes.owner_id, notes.created_at 
+FROM notes 
+WHERE notes.id = %(pk_1)s
+2026-07-30 14:31:09,622 | INFO | [cached since 0.04937s ago] {'pk_1': 27}
+2026-07-30 14:31:09,624 | INFO | POST /notes/import Status=200 Time=94.93ms
+2026-07-30 14:31:09,626 | INFO | ROLLBACK
+2026-07-30 14:31:09,638 | INFO | BEGIN (implicit)
+2026-07-30 14:31:09,639 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:31:09,639 | INFO | [cached since 65.82s ago] {'email_1': 'finaltest@gmail.com', 'param_1': 1}
+2026-07-30 14:31:09,644 | INFO | SELECT notes.id AS notes_id, notes.title AS notes_title, notes.content AS notes_content, notes.tag AS notes_tag, notes.owner_id AS notes_owner_id, notes.created_at AS notes_created_at 
+FROM notes 
+WHERE notes.owner_id = %(owner_id_1)s 
+ LIMIT %(param_1)s, %(param_2)s
+2026-07-30 14:31:09,645 | INFO | [cached since 61.61s ago] {'owner_id_1': 7, 'param_1': 0, 'param_2': 10}
+2026-07-30 14:31:09,653 | INFO | GET /notes Status=200 Time=23.0ms
+2026-07-30 14:31:09,657 | INFO | ROLLBACK
+2026-07-30 14:31:57,345 | INFO | BEGIN (implicit)
+2026-07-30 14:31:57,346 | INFO | SELECT users.id AS users_id, users.name AS users_name, users.email AS users_email, users.password AS users_password, users.created_at AS users_created_at 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s
+2026-07-30 14:31:57,346 | INFO | [cached since 113.5s ago] {'email_1': 'finaltest@gmail.com', 'param_1': 1}
+2026-07-30 14:31:57,350 | INFO | SELECT notes.id AS notes_id, notes.title AS notes_title, notes.content AS notes_content, notes.tag AS notes_tag, notes.owner_id AS notes_owner_id, notes.created_at AS notes_created_at 
+FROM notes 
+WHERE notes.owner_id = %(owner_id_1)s 
+ LIMIT %(param_1)s, %(param_2)s
+2026-07-30 14:31:57,351 | INFO | [cached since 109.3s ago] {'owner_id_1': 7, 'param_1': 0, 'param_2': 10}
+2026-07-30 14:31:57,355 | INFO | GET /notes Status=200 Time=15.03ms
+2026-07-30 14:31:57,362 | INFO | ROLLBACK
