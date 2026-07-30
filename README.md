@@ -1,6 +1,6 @@
 # 🍽️ Zomato Notes
 
-A modern Full Stack AI-powered Note Management Application built using **FastAPI, SQLAlchemy, SQLite, HTML, CSS and JavaScript**.
+A modern Full Stack AI-powered Note Management Application built using **FastAPI, SQLAlchemy, MySQL, HTML, CSS and JavaScript**.
 
 The application allows users to securely manage personal notes with **JWT Authentication**, **Smart Search**, **Semantic Search**, **Quick Find**, **AI Tag Suggestions**, and a responsive frontend.
 

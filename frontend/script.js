@@ -120,94 +120,72 @@ window.addEventListener("DOMContentLoaded",()=>{
 });
 
 
-const CATEGORY_TREE = {
-    name: "All Tags",
-    children: [
-        {
-            name: "Work",
-            children: [
-                { name: "Standups", children: [] },
-                { name: "Retros", children: [] }
-            ]
-        },
-        {
-            name: "Personal",
-            children: [
-                {
-                    name: "Health",
-                    children: [
-                        {
-                            name: "Fitness",
-                            children: []
-                        }
-                    ]
-                },
-                {
-                    name: "Recipes",
-                    children: []
-                }
-            ]
-        },
-        {
-            name: "Travel",
-            children: []
-        }
-    ]
-};
 
 
-function renderCategory(node) {
 
-    const li = document.createElement("li");
+// ===============================
+// Dynamic Category System
+// ===============================
 
-    li.textContent = node.name;
+let allNotes = [];
 
-    if (node.children.length > 0) {
+async function loadCategoryTree() {
 
-        const ul = document.createElement("ul");
+    const categoryTree = document.getElementById("categoryTree");
 
-        ul.style.display = "none";
+    if (!categoryTree) return;
 
-        li.style.cursor = "pointer";
+    const tags = [
+        ...new Set(
+            allNotes
+                .map(note => note.tag)
+                .filter(tag => tag && tag.trim() !== "")
+        )
+    ].sort();
 
-        li.addEventListener("click", function (e) {
-
-            e.stopPropagation();
-
-            ul.style.display =
-                ul.style.display === "none"
-                    ? "block"
-                    : "none";
-
-        });
-
-        node.children.forEach(child => {
-
-            ul.appendChild(renderCategory(child));
-
-        });
-
-        li.appendChild(ul);
-
-    }
-
-    return li;
-
-}
-
-
-function loadCategoryTree() {
+    categoryTree.innerHTML = "";
 
     const ul = document.createElement("ul");
 
-    ul.appendChild(renderCategory(CATEGORY_TREE));
+    // All Tags
+    const allItem = document.createElement("li");
+    allItem.textContent = "All Tags";
+    allItem.style.cursor = "pointer";
 
-    categoryTree.innerHTML = "";
+    allItem.onclick = () => {
+
+        renderNotes(allNotes);
+
+    };
+
+    ul.appendChild(allItem);
+
+    // Dynamic Tags
+    tags.forEach(tag => {
+
+        const li = document.createElement("li");
+
+        li.textContent = tag;
+
+        li.style.cursor = "pointer";
+
+        li.onclick = () => {
+
+            const filtered = allNotes.filter(
+                note => note.tag === tag
+            );
+
+            renderNotes(filtered);
+
+        };
+
+        ul.appendChild(li);
+
+    });
 
     categoryTree.appendChild(ul);
 
 }
-
 
 /* =====================================
         AUTH MODAL
@@ -493,6 +471,9 @@ async function loadNotes(){
         }
 
         const notes = await response.json();
+
+        allNotes = notes;
+        loadCategoryTree();
 
         renderNotes(notes);
 
