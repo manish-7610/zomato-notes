@@ -2,7 +2,7 @@
 
 A modern Full Stack AI-powered Note Management Application built using **FastAPI, SQLAlchemy, MySQL, HTML, CSS and JavaScript**.
 
-The application allows users to securely manage personal notes with **JWT Authentication**, **Smart Search**, **Semantic Search**, **Quick Find**, **AI Tag Suggestions**, and a responsive frontend.
+The application allows users to securely manage personal notes with **JWT Authentication**, **Smart Search**, **Semantic Search**, **Quick Find**, **Tag Based Filterin**, **AI Tag Suggestions**, and a responsive frontend.
 
 ---
 
@@ -57,7 +57,7 @@ The project combines traditional CRUD operations with searching algorithms and A
 
 ---
 
-## 🎨 Frontend
+## 🎨 Frontend Technologies
 
 - Responsive UI
 - Modern Design
@@ -65,6 +65,8 @@ The project combines traditional CRUD operations with searching algorithms and A
 - Delete Confirmation Modal
 - Loading Animation
 - Error Handling
+- Dynamic Categories
+
 
 ---
 
@@ -81,9 +83,22 @@ The project combines traditional CRUD operations with searching algorithms and A
 - Python
 - FastAPI
 - SQLAlchemy
-- SQLite
+- MySQL
 - JWT Authentication
 - Pydantic
+
+
+# 🗄 Database
+
+The application uses MySQL as the primary relational database.
+
+Database tables include:
+
+- users
+- notes
+
+SQLAlchemy ORM is used for all database operations.
+
 
 ## AI
 
@@ -364,7 +379,7 @@ for testing the Import Notes functionality.
 # 📸 Screenshots
 
 The project includes:
-
+(Add project screenshots here)
 - Login
 - Register
 - Dashboard
@@ -376,17 +391,26 @@ The project includes:
 - Semantic Search
 - Swagger Documentation
 
+
+# 🔒 Security
+
+- Password Hashing
+- JWT Authentication
+- Protected Routes
+- User-specific Authorization
+
 ---
 
 # 🔮 Future Improvements
 
-- OpenAI Integration
+- Gemini / OpenAI API Integration
 - Voice Notes
 - File Attachments
 - Markdown Support
 - Note Sharing
 - Dark Mode
 - Email Notifications
+- AI Powered Smart Search
 
 ---
 
@@ -401,3 +425,9 @@ Full Stack Web Developer
 # ⭐ Acknowledgements
 
 Developed as a **Full Stack Capstone Project** using FastAPI, SQLAlchemy, JWT Authentication, Semantic Search, and AI-powered note management concepts.
+
+# 🎯 Conclusion
+
+Zomato Notes is a Full Stack AI-powered Note Management System developed as a Capstone Project.
+
+The application demonstrates authentication, CRUD operations, semantic search, AI-assisted features, searching algorithms, responsive frontend development, and database management using FastAPI and MySQL.

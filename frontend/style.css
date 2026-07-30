@@ -129,13 +129,13 @@ body{
 
 .sidebar{
 
-    background:#1e293b;
+    background:#1f2937;
 
     padding:25px;
 
     border-radius:16px;
 
-    border:1px solid #334155;
+    border:1px solid rgba(255,255,255,.08);
 
     height:fit-content;
 
@@ -288,15 +288,15 @@ body{
 
     padding:22px;
 
-    transition:.25s;
+    transition:.3s;
 
 }
 
 .note-card:hover{
 
-    transform:translateY(-5px);
+    transform:translateY(-4px);
 
-    box-shadow:0 15px 35px rgba(0,0,0,.35);
+    box-shadow:0 12px 25px rgba(0,0,0,.25);
 
 }
 
