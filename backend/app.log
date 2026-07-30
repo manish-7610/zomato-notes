@@ -14375,3 +14375,15 @@ WHERE notes.owner_id = %(owner_id_1)s
 2026-07-30 14:31:57,351 | INFO | [cached since 109.3s ago] {'owner_id_1': 7, 'param_1': 0, 'param_2': 10}
 2026-07-30 14:31:57,355 | INFO | GET /notes Status=200 Time=15.03ms
 2026-07-30 14:31:57,362 | INFO | ROLLBACK
+2026-07-30 16:02:47,674 | INFO | SELECT DATABASE()
+2026-07-30 16:02:47,675 | INFO | [raw sql] {}
+2026-07-30 16:02:47,677 | INFO | SELECT @@sql_mode
+2026-07-30 16:02:47,677 | INFO | [raw sql] {}
+2026-07-30 16:02:47,680 | INFO | SELECT @@lower_case_table_names
+2026-07-30 16:02:47,680 | INFO | [raw sql] {}
+2026-07-30 16:02:47,684 | INFO | BEGIN (implicit)
+2026-07-30 16:02:47,686 | INFO | DESCRIBE `zomato_notes`.`users`
+2026-07-30 16:02:47,686 | INFO | [raw sql] {}
+2026-07-30 16:02:47,726 | INFO | DESCRIBE `zomato_notes`.`notes`
+2026-07-30 16:02:47,727 | INFO | [raw sql] {}
+2026-07-30 16:02:47,731 | INFO | COMMIT
