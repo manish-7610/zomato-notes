@@ -34,6 +34,10 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
+class ProfileUpdate(BaseModel):
+    name: str
+    email: EmailStr
+
 # ==========================
 # NOTE SCHEMAS
 # ==========================

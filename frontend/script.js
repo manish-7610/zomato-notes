@@ -73,6 +73,8 @@ const loginBtn=document.getElementById("loginBtn");
 
 const logoutBtn=document.getElementById("logoutBtn");
 
+const profileBtn=document.getElementById("profileBtn");
+
 let editingNoteId = null;
 
 const submitBtn = noteForm.querySelector("button");
@@ -84,6 +86,30 @@ const cancelDelete = document.getElementById("cancelDelete");
 let deleteNoteId = null;
 
 const cancelEditBtn = document.getElementById("cancelEditBtn");
+
+const profileModal = document.getElementById("profileModal");
+
+const closeProfileBtn = document.getElementById("closeProfileBtn");
+
+const profileName = document.getElementById("profileName");
+
+const profileEmail = document.getElementById("profileEmail");
+
+const profileNotes = document.getElementById("profileNotes");
+
+const profileJoined = document.getElementById("profileJoined");
+
+const editProfileBtn = document.getElementById("editProfileBtn");
+
+const editProfileModal = document.getElementById("editProfileModal");
+
+const editProfileForm = document.getElementById("editProfileForm");
+
+const editName = document.getElementById("editName");
+
+const editEmail = document.getElementById("editEmail");
+
+const cancelEditProfile = document.getElementById("cancelEditProfile");
 
 function showLoader(){
 
@@ -108,14 +134,44 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     loadCategoryTree();
 
-    if(getToken()){
+    tag.addEventListener("change",()=>{
 
-        loginBtn.style.display="none";
-        logoutBtn.style.display="block";
+    if(tag.value==="Others"){
 
-        loadNotes();
+        customCategory.classList.remove("hidden");
+
+        customCategory.required=true;
 
     }
+
+    else{
+
+        customCategory.classList.add("hidden");
+
+        customCategory.required=false;
+
+        customCategory.value="";
+
+    }
+
+});
+
+
+if(getToken()){
+
+    loginBtn.style.display="none";
+    logoutBtn.style.display="inline-block";
+    profileBtn.style.display="inline-block";
+
+    loadNotes();
+
+}else{
+
+    loginBtn.style.display="inline-block";
+    logoutBtn.style.display="none";
+    profileBtn.style.display="none";
+
+}
 
 });
 
@@ -128,6 +184,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 // ===============================
 
 let allNotes = [];
+let activeCategory = "All Tags";
 
 async function loadCategoryTree() {
 
@@ -135,47 +192,70 @@ async function loadCategoryTree() {
 
     if (!categoryTree) return;
 
-    const tags = [
-        ...new Set(
-            allNotes
-                .map(note => note.tag)
-                .filter(tag => tag && tag.trim() !== "")
-        )
-    ].sort();
+    // Unique Categories
+    const tags = [...new Set(
+        allNotes
+            .map(note => note.tag)
+            .filter(tag => tag && tag.trim() !== "")
+    )].sort();
 
     categoryTree.innerHTML = "";
 
     const ul = document.createElement("ul");
 
-    // All Tags
+    ul.className = "category-list";
+
+    // ================= All Tags =================
+
     const allItem = document.createElement("li");
-    allItem.textContent = "All Tags";
-    allItem.style.cursor = "pointer";
+
+    allItem.textContent = `All Tags (${allNotes.length})`;
+
+    allItem.className =
+        activeCategory === "All Tags"
+            ? "active-category"
+            : "";
 
     allItem.onclick = () => {
 
+        activeCategory = "All Tags";
+
         renderNotes(allNotes);
+
+        loadCategoryTree();
 
     };
 
     ul.appendChild(allItem);
 
-    // Dynamic Tags
+    // ================= Categories =================
+
     tags.forEach(tag => {
+
+        const count = allNotes.filter(
+            note => note.tag === tag
+        ).length;
 
         const li = document.createElement("li");
 
-        li.textContent = tag;
+        li.textContent = `${tag} (${count})`;
 
-        li.style.cursor = "pointer";
+        li.className =
+            activeCategory === tag
+                ? "active-category"
+                : "";
 
         li.onclick = () => {
+
+            activeCategory = tag;
 
             const filtered = allNotes.filter(
                 note => note.tag === tag
             );
 
             renderNotes(filtered);
+
+            loadCategoryTree();
 
         };
 
@@ -186,6 +266,9 @@ async function loadCategoryTree() {
     categoryTree.appendChild(ul);
 
 }
+
+
+
 
 /* =====================================
         AUTH MODAL
@@ -213,13 +296,6 @@ loginBtn.addEventListener("click",()=>{
 
 });
 
-logoutBtn.addEventListener("click",()=>{
-
-    removeToken();
-
-    location.reload();
-
-});
 
 toggleAuth.addEventListener("click",()=>{
 
@@ -401,11 +477,18 @@ async function login(email,password){
 
         saveToken(data.access_token);
 
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("email", data.email);
+
         authModal.style.display="none";
 
-        loginBtn.style.display="none";
+loginBtn.style.display="none";
 
-        logoutBtn.style.display="block";
+logoutBtn.style.display="inline-block";
+
+profileBtn.style.display="inline-block";
+
+loadNotes();
 
         showToast("Login Successful");
 
@@ -429,9 +512,11 @@ logoutBtn.addEventListener("click",()=>{
 
     removeToken();
 
-    logoutBtn.style.display="none";
+logoutBtn.style.display="none";
 
-    loginBtn.style.display="block";
+profileBtn.style.display="none";
+
+loginBtn.style.display="inline-block";
 
     notesContainer.innerHTML="";
 
@@ -439,6 +524,131 @@ logoutBtn.addEventListener("click",()=>{
 
 });
 
+profileBtn.addEventListener("click", async () => {
+
+    await loadNotes();
+
+    editProfileModal.style.display = "none";
+
+    profileModal.style.display = "flex";
+
+    
+});
+
+closeProfileBtn.addEventListener("click", () => {
+
+    profileModal.style.display = "none";
+
+});
+
+
+editProfileBtn.addEventListener("click", () => {
+
+    editName.value = localStorage.getItem("name");
+
+    editEmail.value = localStorage.getItem("email");
+
+
+    profileModal.style.display = "none";
+
+    editProfileModal.style.display = "flex";
+
+});
+
+cancelEditProfile.addEventListener("click", () => {
+
+    editProfileModal.style.display = "none";
+
+    profileModal.style.display = "flex";
+
+});
+
+
+editProfileForm.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    try{
+
+        const response = await fetch(`${BASE_URL}/profile`,{
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json",
+                ...authHeaders()
+            },
+
+            body:JSON.stringify({
+
+                name:editName.value,
+
+                email:editEmail.value
+
+            })
+
+        });
+
+        if(!response.ok){
+
+            throw new Error("Unable to update profile");
+
+        }
+
+        const user = await response.json();
+
+        localStorage.setItem("name", user.name);
+
+        localStorage.setItem("email", user.email);
+
+        profileName.textContent = user.name;
+
+        profileEmail.textContent = user.email;
+
+        await loadNotes();
+
+        editProfileModal.style.display = "none";
+
+        profileModal.style.display = "flex";
+
+        showToast("Profile Updated");
+
+    }
+
+    catch(error){
+
+        showToast(error.message);
+
+    }
+
+});
+
+
+
+window.addEventListener("click", (e) => {
+
+    if (e.target === profileModal) {
+
+        profileModal.style.display = "none";
+
+    }
+
+});
+
+
+window.addEventListener("click",(e)=>{
+
+    if(e.target===editProfileModal){
+
+        editProfileModal.style.display="none";
+
+        profileModal.style.display="flex";
+
+        
+
+    }
+
+});
 
 /* ===============================
         AUTH HEADER
@@ -473,6 +683,15 @@ async function loadNotes(){
         const notes = await response.json();
 
         allNotes = notes;
+
+        profileNotes.textContent = notes.length;
+
+profileEmail.textContent = localStorage.getItem("email") || "Unknown";
+
+profileName.textContent = localStorage.getItem("name") || "User";
+
+profileJoined.textContent = "2026";
+
         loadCategoryTree();
 
         renderNotes(notes);
@@ -701,84 +920,102 @@ deleteBtn.addEventListener("click", () => {
 }
 
 
-
-
 /* ===============================
         CREATE NOTE
 ================================ */
 
-noteForm.addEventListener("submit",async(e)=>{
+noteForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    const title=document.getElementById("title").value;
+    const title = document.getElementById("title").value;
 
-    const content=document.getElementById("content").value;
+    const content = document.getElementById("content").value;
 
-    const tag=document.getElementById("tag").value;
+    const tag = document.getElementById("tag").value;
 
+    const customCategoryInput =
+        document.getElementById("customCategory");
 
+    const customCategory =
+        customCategoryInput.value.trim();
 
-    if(editingNoteId){
+    const finalTag =
+        tag === "Others"
+            ? customCategory
+            : tag;
 
-    await updateNote(
-        editingNoteId,
-        title,
-        content,
-        tag
-    );
+    // ================= EDIT =================
 
-    editingNoteId = null;
+    if (editingNoteId) {
 
-    submitBtn.innerText = "Create Note";
+        await updateNote(
+            editingNoteId,
+            title,
+            content,
+            finalTag
+        );
 
-    noteForm.reset();
+        editingNoteId = null;
 
-    loadNotes();
+        submitBtn.innerText = "Create Note";
 
-    return;
+        noteForm.reset();
 
-}
+        customCategoryInput.classList.add("hidden");
+        customCategoryInput.value = "";
 
+        document.getElementById("tag").value = "";
 
-    try{
+        loadNotes();
 
-        const response=await fetch(`${BASE_URL}/notes`,{
+        return;
+    }
 
-            method:"POST",
+    // ================= CREATE =================
 
-            headers:authHeaders(),
+    try {
 
-            body:JSON.stringify({
+        const response = await fetch(`${BASE_URL}/notes`, {
+
+            method: "POST",
+
+            headers: authHeaders(),
+
+            body: JSON.stringify({
 
                 title,
                 content,
-                tag
+                tag: finalTag
 
             })
 
         });
 
-
-        if(!response.ok){
+        if (!response.ok) {
 
             throw new Error("Unable to create note");
 
         }
 
-        const data=await response.json();
+        const data = await response.json();
 
         console.log(data);
 
         showToast("Note Created Successfully");
 
-        loadNotes();
-
         noteForm.reset();
+
+        customCategoryInput.classList.add("hidden");
+        customCategoryInput.value = "";
+
+        document.getElementById("tag").value = "";
+
+        loadNotes();
 
     }
 
-    catch(error){
+    catch (error) {
 
         showToast(error.message);
 

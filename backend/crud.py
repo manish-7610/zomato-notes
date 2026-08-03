@@ -29,7 +29,20 @@ def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
 
+def update_profile(db: Session, user_id: int, data: schemas.ProfileUpdate):
 
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+
+    if not user:
+        return None
+
+    user.name = data.name
+    user.email = data.email
+
+    db.commit()
+    db.refresh(user)
+
+    return user
 
 
 def get_user_by_id(db: Session, user_id: int):

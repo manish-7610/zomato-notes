@@ -43,8 +43,12 @@
                 Login
             </button>
 
-            <button id="logoutBtn">
-                Logout
+            <button id="profileBtn" style="display:none;">
+                👤 Profile
+            </button>
+
+            <button id="logoutBtn" style="display:none;">
+                 Logout
             </button>
 
         </nav>
@@ -77,12 +81,40 @@
                     required
                 ></textarea>
 
-                <input
-                    type="text"
-                    id="tag"
-                    placeholder="Tag"
-                    required
-                >
+   
+<select id="tag" required>
+
+    <option value="">Select Category</option>
+
+    <option value="Work">💼 Work</option>
+
+    <option value="Programming">💻 Programming</option>
+
+    <option value="College">🎓 College</option>
+
+    <option value="Personal">👤 Personal</option>
+
+    <option value="Health">❤️ Health</option>
+
+    <option value="Travel">✈️ Travel</option>
+
+    <option value="Shopping">🛒 Shopping</option>
+
+    <option value="Ideas">💡 Ideas</option>
+
+    <option value="Recipes">🍕 Recipes</option>
+
+    <option value="Others">📁 Others</option>
+
+</select>
+
+<input
+    type="text"
+    id="customCategory"
+    placeholder="Enter Custom Category"
+    class="hidden"
+/>                    
+
 
                 <button type="submit">
                     Create Note
@@ -213,6 +245,109 @@
             </button>
 
         </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PROFILE MODAL ================= -->
+
+<div id="profileModal" class="modal">
+
+    <div class="modal-content profile-modal">
+
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                👤
+            </div>
+
+            <h2 id="profileName">
+                User Name
+            </h2>
+
+            <p id="profileEmail">
+                user@gmail.com
+            </p>
+
+        </div>
+
+        <div class="profile-info">
+
+            <div class="profile-item">
+                <span>Total Notes</span>
+                <strong id="profileNotes">0</strong>
+            </div>
+
+            <div class="profile-item">
+                <span>Member Since</span>
+                <strong id="profileJoined">2026</strong>
+            </div>
+
+        </div>
+
+        <button
+            id="editProfileBtn"
+            class="btn-primary"
+            type="button">
+            Edit Profile
+        </button>
+
+        <button
+            id="closeProfileBtn"
+            class="delete-btn"
+            type="button">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= EDIT PROFILE MODAL ================= -->
+
+<div id="editProfileModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Edit Profile</h2>
+
+        <form id="editProfileForm" class="edit-profile-form">
+
+            <input
+                type="text"
+                id="editName"
+                placeholder="Enter Name"
+                required
+            >
+
+            <input
+                type="email"
+                id="editEmail"
+                placeholder="Enter Email"
+                required
+            >
+
+            <div class="modal-actions">
+
+                <button
+                    type="submit"
+                    class="btn-primary">
+                    Save Changes
+                </button>
+
+                <button
+                    id="cancelEditProfile"
+                    type="button"
+                    class="delete-btn">
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
