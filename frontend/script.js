@@ -370,8 +370,7 @@ submitAuth.addEventListener("click",async()=>{
 
     if(isLogin){
 
-        login(email,password);
-
+        await login(email, password);
     }
 
     else{
@@ -482,15 +481,15 @@ async function login(email,password){
 
         authModal.style.display="none";
 
-loginBtn.style.display="none";
+loginBtn.style.display = "none";
 
-logoutBtn.style.display="inline-block";
+logoutBtn.style.display = "inline-block";
 
-profileBtn.style.display="inline-block";
+profileBtn.style.display = "inline-block";
 
-loadNotes();
+await loadNotes();
 
-        showToast("Login Successful");
+showToast("Login Successful");
 
     }
 
@@ -508,17 +507,25 @@ loadNotes();
         LOGOUT
 ================================ */
 
-logoutBtn.addEventListener("click",()=>{
+logoutBtn.addEventListener("click", () => {
 
     removeToken();
 
-logoutBtn.style.display="none";
+    profileModal.style.display = "none";
 
-profileBtn.style.display="none";
+    editProfileModal.style.display = "none";
 
-loginBtn.style.display="inline-block";
+    authModal.style.display = "none";
 
-    notesContainer.innerHTML="";
+    logoutBtn.style.display = "none";
+
+    profileBtn.style.display = "none";
+
+    loginBtn.style.display = "inline-block";
+
+    notesContainer.innerHTML = "";
+
+    allNotes = [];
 
     showToast("Logged Out");
 
@@ -526,13 +533,29 @@ loginBtn.style.display="inline-block";
 
 profileBtn.addEventListener("click", async () => {
 
-    await loadNotes();
+    try {
 
-    editProfileModal.style.display = "none";
+        profileName.textContent =
+            localStorage.getItem("name") || "User";
 
-    profileModal.style.display = "flex";
+        profileEmail.textContent =
+            localStorage.getItem("email") || "Unknown";
 
-    
+        profileNotes.textContent =
+            allNotes.length;
+
+        editProfileModal.style.display = "none";
+
+        profileModal.style.display = "flex";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
 });
 
 closeProfileBtn.addEventListener("click", () => {
@@ -803,8 +826,10 @@ renderNotes(data.results);
 smartSearchInput.addEventListener("input", smartSearch);
 
 
-async function importNotes() {
+async function importNotes(e) {
 
+    if (e) e.preventDefault();
+    
     const file = importFile.files[0];
 
     if (!file) {

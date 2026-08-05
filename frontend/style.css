@@ -295,26 +295,30 @@ body{
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important; 
     align-items: start; 
-    gap: 20px; 
+    gap: 28px; 
     width: 100%;
 }
 
 
 /* ===========================
-   NOTE CARD
+   PREMIUM ZOMATO NOTE CARD
 =========================== */
 
 .note-card{
 
-    background:#1e293b;
+    background:linear-gradient(
+        180deg,
+        #243145 0%,
+        #202c3d 100%
+    );
 
-    border:1px solid #334155;
+    border:1px solid rgba(255,255,255,.06);
 
-    border-radius:18px;
+    border-radius:20px;
 
-    padding:22px;
+    padding:26px;
 
-    min-height:240px;
+    min-height:255px;
 
     display:flex;
 
@@ -322,67 +326,229 @@ body{
 
     justify-content:space-between;
 
-    transition:.3s ease;
+    position:relative;
+
+    overflow:hidden;
+
+    transition:
+        transform .28s ease,
+        box-shadow .28s ease,
+        background .28s ease;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.18);
 
 }
+
+
+/* Top Accent */
+
+.note-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:4px;
+
+    background:#EF4F5F;
+
+    transform:scaleX(0);
+
+    transform-origin:left;
+
+    transition:.35s;
+
+}
+
+
+/* Hover */
 
 .note-card:hover{
 
     transform:translateY(-8px);
 
-    border-color:#38bdf8;
+    background:linear-gradient(
+        180deg,
+        #28364b,
+        #243145
+    );
 
     box-shadow:
-        0 15px 40px rgba(0,0,0,.35);
+
+        0 18px 45px rgba(0,0,0,.28),
+
+        0 0 25px rgba(239,79,95,.15);
 
 }
+
+
+.note-card:hover::before{
+
+    transform:scaleX(1);
+
+}
+
+
+/* Title */
 
 .note-card h3{
 
-    margin-bottom:12px;
+    font-size:28px;
 
-    color:#38bdf8;
-
-}
-
-.note-card p{
-
-    flex:1;
-
-    color:#cbd5e1;
-
-    line-height:1.7;
-
-    margin-bottom:18px;
-
-}
-
-.note-tag{
-
-    display:inline-block;
-
-    background:#ef4444;
-
-    padding:6px 12px;
-
-    border-radius:999px;
-
-    font-size:13px;
-
-    margin-bottom:20px;   /* add */
-}
-
-.note-card small{
-
-    display:inline-block;
-
-    margin-bottom:1px;
+    font-weight:700;
 
     color:#ffffff;
 
-    font-weight:600;
+    margin:0 0 18px;
+
+    line-height:1.2;
+
+    transition:.25s;
+
+    letter-spacing:-0.4px;
 
 }
+
+.note-card:hover h3{
+
+    color:#EF4F5F;
+
+}
+
+
+/* Description */
+
+.note-card p{
+
+    color:#d6dce5;
+
+    line-height:1.8;
+
+    font-size:15px;
+
+    flex:1;
+
+    margin-bottom:24px;
+
+}
+
+
+/* Category */
+
+.note-card small{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    width:max-content;
+
+    padding:8px 15px;
+
+    border-radius:999px;
+
+    background:rgba(239,79,95,.10);
+
+    color:#ff8792;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    margin-bottom:22px;
+
+}
+
+.note-card small::before{
+
+    content:"";
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#EF4F5F;
+
+}
+
+
+/* Action Buttons */
+
+.actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.actions button{
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:11px 18px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+/* Edit */
+
+.edit-btn{
+
+    background:#2563eb;
+
+    color:#fff;
+
+}
+
+.edit-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+}
+
+
+/* Delete */
+
+.delete-btn{
+
+    background:#EF4F5F;
+
+    color:#fff;
+
+}
+
+.delete-btn:hover{
+
+    background:#dc3545;
+
+    transform:translateY(-2px);
+
+}
+
 
 /* ===========================
    AI BOX

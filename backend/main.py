@@ -18,6 +18,7 @@ from algorithms import (
     insertion_sort,
     linear_search,
     binary_search,
+    binary_search_recursive,
     quick_find
 )
 
@@ -54,11 +55,13 @@ async def log_requests(request: Request, call_next):
 
     process_time = round((time.time() - start_time) * 1000, 2)
 
+    response.headers["X-Process-Time"] = str(process_time)
+
     logger.info(
-        f"{request.method} {request.url.path} "
-        f"Status={response.status_code} "
-        f"Time={process_time}ms"
-    )
+      f"{request.method} {request.url.path} "
+      f"Status={response.status_code} "
+      f"Time={process_time}ms"
+)
 
     return response
 
@@ -168,12 +171,14 @@ def create_note(
     )
 
     return result
+
+
 @app.get("/notes", response_model=list[schemas.NoteResponse])
 def get_notes(
     search: str = None,
     tag: str = None,
     skip: int = 0,
-    limit: int = 10,
+    limit: int = 100000,
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -230,6 +235,40 @@ def lookup_note(
 
     if not result:
         raise HTTPException(status_code=404, detail="Note not found")
+
+    return result
+
+
+@app.get("/notes/lookup-recursive")
+def lookup_note_recursive(
+    title: str,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    notes = crud.get_notes(
+        db=db,
+        user_id=current_user.id,
+        search=None,
+        tag=None,
+        skip=0,
+        limit=1000
+    )
+
+    sorted_notes = insertion_sort(notes)
+
+    result = binary_search_recursive(
+        sorted_notes,
+        title,
+        0,
+        len(sorted_notes) - 1
+    )
+
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Note not found"
+        )
 
     return result
 
@@ -468,4 +507,43 @@ def update_profile(
         db,
         current_user.id,
         profile
+    )
+
+
+
+@app.get("/reports/tag-summary")
+def report_tag_summary(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    return crud.tag_summary(
+        db,
+        current_user.id
+    )
+
+
+@app.get("/reports/user-notes")
+def report_user_notes(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    return {
+        "total_notes": crud.user_notes_count(
+            db,
+            current_user.id
+        )
+    }
+
+
+@app.get("/reports/long-notes")
+def report_long_notes(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    return crud.long_notes(
+        db,
+        current_user.id
     )

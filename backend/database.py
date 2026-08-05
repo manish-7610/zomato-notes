@@ -1,26 +1,23 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
-
+from sqlalchemy.orm import declarative_base, sessionmaker
 from dotenv import load_dotenv
+from urllib.parse import quote_plus
 import os
 
 load_dotenv()
 
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME")
+USER = os.getenv("user")
+PASSWORD = quote_plus(os.getenv("password"))
+HOST = os.getenv("host")
+PORT = os.getenv("port")
+DBNAME = os.getenv("dbname")
 
 DATABASE_URL = (
-    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?ssl_disabled=false"
+    f"postgresql+psycopg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
 )
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=True
-)
+engine = create_engine(DATABASE_URL, echo=True)
+
 
 SessionLocal = sessionmaker(
     autoflush=False,
@@ -29,7 +26,6 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
-
 
 def get_db():
     db = SessionLocal()

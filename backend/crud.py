@@ -113,7 +113,7 @@ def get_notes(
     search: str = None,
     tag: str = None,
     skip: int = 0,
-    limit: int = 10
+    limit: int = 100000
 ):
 
     query = db.query(models.Note).filter(
@@ -252,3 +252,41 @@ def apply_ai_tag(
 
 
 
+from sqlalchemy import func
+
+
+def tag_summary(db: Session, user_id: int):
+
+    return (
+        db.query(
+            models.Note.tag,
+            func.count(models.Note.id).label("count")
+        )
+        .filter(models.Note.owner_id == user_id)
+        .group_by(models.Note.tag)
+        .all()
+    )
+
+
+def user_notes_count(db: Session, user_id: int):
+
+    return (
+        db.query(models.Note)
+        .filter(models.Note.owner_id == user_id)
+        .count()
+    )
+
+
+def long_notes(db: Session, user_id: int):
+
+    notes = (
+        db.query(models.Note)
+        .filter(models.Note.owner_id == user_id)
+        .all()
+    )
+
+    return [
+        note
+        for note in notes
+        if len(note.content) > 100
+    ]
