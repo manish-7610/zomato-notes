@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func, text
 import models
 import schemas
 from semantic_search import semantic_search
 from ai_service import get_ai_response, SYSTEM_PROMPT
 import json
-from auth import hash_password
+from auth import hash_password, verify_password
+from logger import logger
 
 # ==========================
 # USER CRUD
@@ -56,8 +58,6 @@ def authenticate_user(db: Session, email: str, password: str):
     if not user:
         return None
 
-    from auth import verify_password
-
     if not verify_password(password, user.password):
         return None
 
@@ -97,7 +97,7 @@ def create_note(
 
     except Exception as e:
 
-        print("AI Error:", e)
+        logger.error(f"AI Error: {e}")
 
         ai_suggestion = None
 
@@ -223,6 +223,33 @@ def delete_note(
 
 
 
+def create_note_bulk(
+    db: Session,
+    notes: list,
+    user_id: int
+):
+    """
+    Insert multiple notes in a single DB commit.
+    Used by the import endpoint only.
+    No AI call — assignment requires AI only on single POST /notes.
+    Returns count of inserted notes.
+    """
+    db_notes = [
+        models.Note(
+            title=note.title,
+            content=note.content,
+            tag=note.tag,
+            owner_id=user_id
+        )
+        for note in notes
+    ]
+
+    db.add_all(db_notes)
+    db.commit()
+
+    return len(db_notes)
+
+
 def apply_ai_tag(
     db: Session,
     note_id: int,
@@ -252,41 +279,76 @@ def apply_ai_tag(
 
 
 
-from sqlalchemy import func
+
 
 
 def tag_summary(db: Session, user_id: int):
-
-    return (
-        db.query(
-            models.Note.tag,
-            func.count(models.Note.id).label("count")
-        )
-        .filter(models.Note.owner_id == user_id)
-        .group_by(models.Note.tag)
-        .all()
+    """
+    Raw SQL with GROUP BY and HAVING COUNT(*) > 1
+    as required by the assignment.
+    Returns only tags that have more than 1 note.
+    """
+    result = db.execute(
+        text("""
+            SELECT tag, COUNT(*) AS count
+            FROM notes
+            WHERE owner_id = :user_id
+            GROUP BY tag
+            HAVING COUNT(*) > 1
+        """),
+        {"user_id": user_id}
     )
+    return [{"tag": row[0], "count": row[1]} for row in result]
 
 
 def user_notes_count(db: Session, user_id: int):
-
-    return (
-        db.query(models.Note)
-        .filter(models.Note.owner_id == user_id)
-        .count()
+    """
+    Raw SQL JOIN between users and notes as required by the assignment.
+    Returns each user alongside their total note count.
+    """
+    result = db.execute(
+        text("""
+            SELECT u.id, u.name, u.email, COUNT(n.id) AS note_count
+            FROM users u
+            LEFT JOIN notes n ON u.id = n.owner_id
+            WHERE u.id = :user_id
+            GROUP BY u.id, u.name, u.email
+        """),
+        {"user_id": user_id}
     )
+    row = result.fetchone()
+    if row:
+        return row[3]
+    return 0
 
 
 def long_notes(db: Session, user_id: int):
-
-    notes = (
-        db.query(models.Note)
-        .filter(models.Note.owner_id == user_id)
-        .all()
+    """
+    Raw SQL with subquery to return notes whose content length
+    is above the average content length — as required by the assignment.
+    """
+    result = db.execute(
+        text("""
+            SELECT id, title, content, tag, owner_id, created_at
+            FROM notes
+            WHERE owner_id = :user_id
+            AND LENGTH(content) > (
+                SELECT AVG(LENGTH(content))
+                FROM notes
+                WHERE owner_id = :user_id
+            )
+        """),
+        {"user_id": user_id}
     )
-
+    rows = result.fetchall()
     return [
-        note
-        for note in notes
-        if len(note.content) > 100
+        {
+            "id": row[0],
+            "title": row[1],
+            "content": row[2],
+            "tag": row[3],
+            "owner_id": row[4],
+            "created_at": row[5]
+        }
+        for row in rows
     ]

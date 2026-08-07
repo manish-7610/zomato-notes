@@ -96,15 +96,10 @@ def home():
     }
 
 def process_note_background(note_id: int):
-    import time
-
-    print(f"Started indexing note {note_id}")
 
     time.sleep(2)
 
     logger.info(f"Background indexing completed for Note ID {note_id}")
-
-    print(f"Completed indexing note {note_id}")
 
 
 
@@ -432,7 +427,7 @@ async def import_notes(
 
     text = content.decode("utf-8")
 
-    notes = []
+    note_list = []
 
     for line in text.splitlines():
 
@@ -446,23 +441,17 @@ async def import_notes(
 
         title, body, tag = parts
 
-        note = schemas.NoteCreate(
+        note_list.append(schemas.NoteCreate(
             title=title.strip(),
             content=body.strip(),
             tag=tag.strip()
-        )
+        ))
 
-        crud.create_note(
-            db,
-            note,
-            current_user.id
-        )
-
-        notes.append(title)
+    count = crud.create_note_bulk(db, note_list, current_user.id)
 
     return {
         "message": "Import Successful",
-        "count": len(notes)
+        "count": count
     }
 
 
@@ -493,7 +482,8 @@ def login(
         "access_token": access_token,
         "token_type": "bearer",
         "name": authenticated_user.name,
-        "email": authenticated_user.email
+        "email": authenticated_user.email,
+        "created_at": authenticated_user.created_at.isoformat()
     }
 
 

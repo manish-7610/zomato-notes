@@ -1,5 +1,8 @@
 import os
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 MOCK_AI = os.getenv("MOCK_AI", "1")
 

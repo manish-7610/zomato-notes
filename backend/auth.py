@@ -22,10 +22,14 @@ def verify_password(plain_password: str, hashed_password: str):
 
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
 
-SECRET_KEY = "mysecretkey123456789"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY", "mysecretkey123456789")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
 
 def create_access_token(data: dict):
@@ -61,8 +65,6 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ):
-    print("TOKEN RECEIVED:", token)
-
     try:
         payload = jwt.decode(
             token,
@@ -70,21 +72,15 @@ def get_current_user(
             algorithms=[ALGORITHM]
         )
 
-        print("PAYLOAD:", payload)
-
         email = payload.get("sub")
-        print("EMAIL:", email)
 
     except Exception as e:
-        print("JWT ERROR:", e)
         raise HTTPException(
             status_code=401,
             detail=str(e)
         )
 
     user = crud.get_user_by_email(db, email)
-
-    print("USER:", user)
 
     if user is None:
         raise HTTPException(

@@ -16,7 +16,7 @@ DATABASE_URL = (
     f"postgresql+psycopg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
 )
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(DATABASE_URL, echo=False)
 
 
 SessionLocal = sessionmaker(
