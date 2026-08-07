@@ -1294,3 +1294,58 @@ footer{
     background:#2563eb;
 
 }
+
+
+/* ===========================
+   PAGINATION
+=========================== */
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 0 8px;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 10px;
+    background: #1e293b;
+    color: #f8fafc;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+    border: 1px solid #334155;
+}
+
+.page-btn:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+.page-btn-active {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
+}
+
+.page-btn-active:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+.page-btn-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-btn-disabled:hover {
+    background: #1e293b;
+    border-color: #334155;
+    transform: none;
+}

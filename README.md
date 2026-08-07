@@ -1,31 +1,22 @@
-
 # 🍽️ Zomato Notes
 
-### 🚀 AI Powered Full Stack Notes Management System
+### 🚀 AI-Powered Full Stack Notes Management System
 
 A modern Full Stack Note Management Application built using **FastAPI**, **SQLAlchemy**, **Supabase PostgreSQL**, **HTML**, **CSS**, **JavaScript**, and **Artificial Intelligence**.
 
-The application provides secure authentication, AI-powered note management, semantic search, advanced searching algorithms, reporting, background processing, and a modern responsive frontend.
+The application provides secure authentication, AI-powered note management, semantic search, advanced searching algorithms, pagination, reporting, background processing, and a modern responsive frontend.
 
 ---
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?style=for-the-badge&logo=python)
-
-![FastAPI](https://img.shields.io/badge/FastAPI-0.116-green?style=for-the-badge&logo=fastapi)
-
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-red?style=for-the-badge)
-
+![FastAPI](https://img.shields.io/badge/FastAPI-0.139-green?style=for-the-badge&logo=fastapi)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-red?style=for-the-badge)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)
-
 ![JWT](https://img.shields.io/badge/JWT-Authentication-black?style=for-the-badge)
-
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?style=for-the-badge&logo=javascript)
-
 ![HTML5](https://img.shields.io/badge/HTML5-orange?style=for-the-badge&logo=html5)
-
 ![CSS3](https://img.shields.io/badge/CSS3-blue?style=for-the-badge&logo=css3)
-
-![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)  #Educational Purpose Only
+![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
 
 ---
 
@@ -35,268 +26,154 @@ Software Development Engineering with Applied AI
 
 Vishlesan I-Hub Foundation, IIT Patna
 
-</div>
-
 ---
 
 # 📑 Table of Contents
 
-- Project Overview
-- Key Features
-- System Architecture
-- Technology Stack
-- Project Structure
-- Database Design
-- Installation Guide
-- Environment Variables
-- Running the Project
-- API Documentation
-- Authentication Flow
-- CRUD Operations
-- Search Algorithms
-- AI Features
-- Reports Module
-- Background Tasks
-- Logging System
-- Security Features
-- Testing
-- Challenges & Bug Fixes
-- Future Improvements
-- Author
+- [Project Overview](#-project-overview)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [System Architecture](#-system-architecture)
+- [Project Structure](#-project-structure)
+- [Database Design](#-database-design)
+- [Installation Guide](#-installation-guide)
+- [Seeding the Database](#-seeding-the-database)
+- [Environment Variables](#-environment-variables)
+- [Running the Project](#-running-the-backend)
+- [API Documentation](#-api-documentation)
+- [Sample Requests and Responses](#-sample-requests-and-responses)
+- [Authentication Flow](#-authentication-flow)
+- [CRUD Operations](#-crud-operations)
+- [Import Notes](#-import-notes)
+- [Pagination](#-pagination)
+- [Search Algorithms](#-search-algorithms)
+- [AI Features](#-artificial-intelligence-features)
+- [Reports Module](#-reports-module)
+- [Background Tasks](#-background-tasks)
+- [Logging System](#-logging-system)
+- [Security Features](#-security-features)
+- [Assignment Compliance](#-assignment-compliance)
+- [Testing Guide](#-testing-guide)
+- [Development Journey](#-development-journey--bug-fixes)
+- [Future Improvements](#-future-improvements)
+- [Author](#-author)
 
 ---
 
 # 📌 Project Overview
 
-Zomato Notes is a modern Full Stack AI-powered Note Management Application that enables users to securely create, organize, search, update, delete, and manage personal notes through an intuitive user interface backed by a scalable FastAPI backend.
+Zomato Notes is a modern Full Stack AI-powered Note Management Application that enables users to securely create, organize, search, update, delete, and manage personal notes through an intuitive browser interface backed by a scalable FastAPI backend.
 
-Unlike traditional note-taking applications, this project combines **Artificial Intelligence**, **Search Algorithms**, **JWT Authentication**, **Semantic Search**, **Background Processing**, and **Reporting** into a single application.
+Unlike traditional note-taking applications, this project combines **Artificial Intelligence**, **Search Algorithms**, **JWT Authentication**, **Semantic Search**, **Pagination**, **Background Processing**, and **Reporting** into a single integrated application.
 
 The project was developed as a Capstone Project to demonstrate real-world backend development concepts, database management, REST API design, authentication, search optimization, and AI integration.
-
----
-
-# 🎯 Objectives
-
-The primary objectives of this project are:
-
-- Build a complete Full Stack application
-- Implement secure JWT Authentication
-- Learn REST API Development
-- Integrate SQLAlchemy ORM
-- Work with Supabase PostgreSQL Database
-- Apply Searching Algorithms
-- Implement AI-assisted Features
-- Create Responsive Frontend
-- Practice Clean Project Structure
-- Demonstrate Software Engineering Best Practices
 
 ---
 
 # ✨ Key Features
 
 ## 🔐 Authentication
-
-- User Registration
-- Secure Login
-- JWT Token Authentication
-- Password Hashing using Passlib + bcrypt
-- Protected API Routes
-- User-specific Data Isolation
-
----
+- User Registration with email validation and password hashing
+- Secure Login with JWT Token generation
+- Password hashing using Passlib + bcrypt
+- Protected API routes — all note operations require a valid Bearer token
+- User-specific data isolation — users only see their own notes
 
 ## 📝 Notes Management
-
-- Create Notes
-- Read Notes
-- Update Notes
-- Delete Notes
-- Personal Notes Dashboard
-- Category Management
-- Import Notes from TXT File
-
----
+- Create, Read, Update, Delete notes (full CRUD)
+- Personal notes dashboard with card layout
+- Category/tag management with dynamic sidebar
+- Custom category support via "Others" dropdown option
+- Import notes in bulk from a `.txt` file
 
 ## 🔍 Searching
-
-The application provides multiple searching techniques.
-
-### Standard Search
-
-Searches notes using keywords.
-
-### Linear Search
-
-Performs sequential search through all notes.
-
-### Binary Search
-
-Searches alphabetically sorted notes efficiently.
-
-### Recursive Binary Search
-
-Recursive implementation of Binary Search.
-
-### Quick Find
-
-Fast title-based searching.
-
-### Semantic Search
-
-Uses AI embeddings to search based on meaning instead of exact words.
-
----
+- Standard keyword search (debounced, client-side, searches across all notes)
+- Linear search via `GET /notes/search`
+- Binary search via `GET /notes/lookup`
+- Recursive binary search via `GET /notes/lookup-recursive`
+- Quick Find (title substring) via `GET /notes/quick-find`
+- Smart Search (AI semantic) via `POST /notes/semantic-search`
 
 ## 🤖 Artificial Intelligence
+- AI tag suggestions on every note creation (Mock AI mode, no API key required)
+- AI summary generation on every note creation
+- AI Suggests panel rendered on the new note card with "Apply as tag" button
+- Semantic similarity search using Sentence Transformers (`all-MiniLM-L6-v2`)
+- Cosine similarity ranking
 
-The project includes AI-assisted features.
-
-- AI Tag Suggestions
-- AI Summary Generation
-- Semantic Similarity Search
-- Mock AI Support
-- Sentence Transformers Integration
-- Cosine Similarity Ranking
-
----
+## 📄 Pagination
+- 10 notes per page
+- Previous / Next buttons
+- Page number buttons with active highlight
+- Pagination resets on create, search, category filter, and smart search
 
 ## 📊 Reports
-
-Administrative reports available inside the backend.
-
-- Tag Summary Report
-- User Notes Report
-- Long Notes Report
-
----
+- `GET /reports/tag-summary` — raw SQL with `GROUP BY` and `HAVING COUNT > 1`
+- `GET /reports/user-notes` — raw SQL `JOIN` between users and notes
+- `GET /reports/long-notes` — raw SQL subquery returning notes above average content length
 
 ## ⚙️ Background Processing
-
-The application performs asynchronous tasks.
-
-- Background Note Indexing
-- Automatic Processing after Note Creation
-
----
+- Background indexing task fires after every `POST /notes`
+- Response returns immediately; indexing completes asynchronously
 
 ## 📋 Logging
-
-Every API request is logged.
-
-- Request Logging
-- Processing Time
-- Global Exception Logging
-- API Status Logging
-
----
-
-## 🎨 Frontend
-
-Modern responsive frontend built using Vanilla JavaScript.
-
-Features include:
-
-- Responsive Layout
-- Beautiful Dashboard
-- Modern Cards
-- Dynamic Categories
-- Toast Notifications
-- Loader Animation
-- Delete Confirmation Modal
-- Edit Mode
-- Profile Management
-- Import Notes
-- AI Search
-- Smart Search
+- Every request logged: method, path, status, processing time
+- Global exception handler logs all unhandled errors
+- `X-Process-Time` header on every response
 
 ---
 
 # 💻 Technology Stack
 
-## Frontend
-
-- HTML5
-- CSS3
-- JavaScript (ES6)
-- Fetch API
-
----
-
-## Backend
-
-- Python
-- FastAPI
-- SQLAlchemy ORM
-- Pydantic
-- JWT Authentication
-- Passlib
-- bcrypt
-
----
-
-## Database
-
-- Supabase PostgreSQL
-- SQLAlchemy ORM
-
----
-
-## Artificial Intelligence
-
-- Sentence Transformers
-- Scikit-Learn
-- Cosine Similarity
-- Mock AI Engine
-
----
-
-## Development Tools
-
-- Visual Studio Code
-- Swagger UI
-- Git
-- GitHub
-- Live Server
-- Uvicorn
+| Layer | Technology |
+|-------|-----------|
+| Frontend | HTML5, CSS3, JavaScript (ES6), Fetch API |
+| Backend | Python, FastAPI 0.139, Uvicorn |
+| ORM | SQLAlchemy 2.0 |
+| Database | Supabase PostgreSQL |
+| Auth | JWT (python-jose), Passlib + bcrypt |
+| Validation | Pydantic 2.x, EmailStr |
+| AI | sentence-transformers, scikit-learn, torch |
+| Driver | psycopg (v3, binary) |
+| Config | python-dotenv |
+| Tools | VS Code, Swagger UI, Git, GitHub, Live Server |
 
 ---
 
 # 🏗️ System Architecture
 
-The application follows a modern Full Stack Architecture where the frontend communicates with the FastAPI backend through REST APIs. The backend handles authentication, business logic, database operations, AI processing, and reporting.
-
 ```
-                    +----------------------+
-                    |      Frontend        |
-                    | HTML • CSS • JS      |
-                    +----------+-----------+
-                               |
-                     Fetch API (HTTP)
-                               |
-                               ▼
-                    +----------------------+
-                    |      FastAPI API     |
-                    | Authentication       |
-                    | CRUD Operations      |
-                    | Search Algorithms    |
-                    | AI Processing        |
-                    | Reports              |
-                    +----------+-----------+
-                               |
-                  SQLAlchemy ORM
-                               |
-                               ▼
-               +-----------------------------+
-               |    Supabase PostgreSQL      |
-               |                             |
-               |   users                     |
-               |   notes                     |
-               +-----------------------------+
-                               |
-                               ▼
-                AI Services / Semantic Search
-          Sentence Transformers + Cosine Similarity
++----------------------+
+|      Frontend        |
+| HTML • CSS • JS      |
++----------+-----------+
+           |
+  Fetch API (HTTP/REST)
+           |
+           ▼
++----------------------+
+|    FastAPI Backend   |
+| JWT Auth Middleware  |
+| CORS Middleware      |
+| X-Process-Time MW    |
+| CRUD Endpoints       |
+| Search Algorithms    |
+| AI / Semantic Search |
+| Raw SQL Reports      |
++----------+-----------+
+           |
+   SQLAlchemy ORM
+           |
+           ▼
++-----------------------------+
+|   Supabase PostgreSQL       |
+|   tables: users, notes      |
++-----------------------------+
+           |
+           ▼
+  Sentence Transformers
+  all-MiniLM-L6-v2
+  Cosine Similarity
 ```
 
 ---
@@ -305,67 +182,29 @@ The application follows a modern Full Stack Architecture where the frontend comm
 
 ```
 zomato-notes/
-│
 ├── backend/
-│
-│   ├── __pycache__/
-│   │
-│   ├── auth.py
-│   │      JWT Authentication
-│   │      Password Hashing
-│   │
-│   ├── crud.py
-│   │      Database CRUD Operations
-│   │
-│   ├── database.py
-│   │      SQLAlchemy Configuration
-│   │      Supabase Connection
-│   │
-│   ├── models.py
-│   │      Database Models
-│   │
-│   ├── schemas.py
-│   │      Request & Response Schemas
-│   │
-│   ├── algorithms.py
-│   │      Linear Search
-│   │      Binary Search
-│   │      Recursive Binary Search
-│   │      Insertion Sort
-│   │      Quick Find
-│   │
-│   ├── semantic_search.py
-│   │      AI Semantic Search
-│   │
-│   ├── ai_service.py
-│   │      AI Tag Suggestions
-│   │      AI Summary
-│   │
-│   ├── logger.py
-│   │      Logging Configuration
-│   │
-│   ├── seed.py
-│   │      Sample Data Generator
-│   │
+│   ├── main.py              # All FastAPI routes and middleware
+│   ├── models.py            # SQLAlchemy ORM: User, Note
+│   ├── schemas.py           # Pydantic request/response schemas
+│   ├── database.py          # Engine, SessionLocal, get_db
+│   ├── auth.py              # JWT creation, bcrypt, get_current_user
+│   ├── crud.py              # All DB operations + raw SQL reports
+│   ├── algorithms.py        # insertion_sort, binary_search, linear_search, quick_find
+│   ├── ai_service.py        # get_ai_response(), SYSTEM_PROMPT, Mock AI
+│   ├── semantic_search.py   # SentenceTransformer + cosine_similarity
+│   ├── ai_sample_notes.py   # AI sample dataset (8 notes, Part 3)
+│   ├── ranking_dataset.py   # Ranking dataset (Part 2)
+│   ├── seed.py              # Seeds demo user + notes + AI sample notes
+│   ├── logger.py            # Logging configuration
 │   ├── requirements.txt
-│   │
 │   ├── .env.example
-│   ├── .env
-│   │
-│   └── main.py
-│          FastAPI Application
-│
-│
+│   └── .env                 # Not committed (see .gitignore)
 ├── frontend/
-│
 │   ├── index.html
 │   ├── style.css
 │   └── script.js
-│
-├── sample_import.txt
-│
+├── sample_import.txt        # 10 pipe-delimited notes for import testing
 ├── README.md
-│
 └── .gitignore
 ```
 
@@ -373,125 +212,101 @@ zomato-notes/
 
 # 🗄️ Database Design
 
-The project uses **Supabase PostgreSQL** as the primary cloud database.
+Database: **Supabase PostgreSQL** — connected via SQLAlchemy ORM with `psycopg` (v3) driver and `sslmode=require`.
 
-The database is connected using **SQLAlchemy ORM**, allowing Python objects to interact directly with PostgreSQL tables.
+## Tables
 
----
+### users
 
-## Database Tables
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | Integer | Primary Key, auto-increment |
+| name | String(100) | NOT NULL |
+| email | String(100) | UNIQUE, NOT NULL |
+| password | String(255) | NOT NULL (bcrypt hash) |
+| created_at | DateTime(timezone) | server default now() |
 
-### Users Table
+### notes
 
-| Column | Type |
-|---------|------|
-| id | Integer |
-| name | String |
-| email | String |
-| password | String |
-| created_at | DateTime |
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | Integer | Primary Key, auto-increment |
+| title | String(120) | NOT NULL |
+| content | String(1000) | NOT NULL |
+| tag | String(100) | nullable |
+| owner_id | Integer | ForeignKey → users.id |
+| created_at | DateTime(timezone) | server default now() |
 
----
+**Relationship:** One User → Many Notes (`owner_id` foreign key).
 
-### Notes Table
-
-| Column | Type |
-|---------|------|
-| id | Integer |
-| title | String |
-| content | Text |
-| tag | String |
-| owner_id | Integer |
-| created_at | DateTime |
-
----
-
-## Entity Relationship
-
-```
-+-----------+          1
-|   Users   |--------------------+
-+-----------+                    |
-| id         |                   |
-| name       |                   |
-| email      |                   |
-| password   |                   |
-+-----------+                    |
-                                 |
-                                 | Many
-                                 ▼
-                          +-------------+
-                          |    Notes    |
-                          +-------------+
-                          | id          |
-                          | title       |
-                          | content     |
-                          | tag         |
-                          | owner_id    |
-                          +-------------+
-```
-
-One User can own multiple Notes.
-
-Each Note belongs to exactly one User.
+Tables are created automatically on startup via `Base.metadata.create_all(bind=engine)`.
 
 ---
 
 # ⚙️ Installation Guide
 
-## 1. Clone Repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/manish-7610/zomato-notes.git
-```
-
----
-
-## 2. Open Project
-
-```bash
 cd zomato-notes
 ```
 
----
-
-## 3. Create Virtual Environment
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
----
+## 3. Activate Virtual Environment
 
-## 4. Activate Virtual Environment
-
-### Windows
-
+**Windows:**
 ```bash
 venv\Scripts\activate
 ```
 
-### Linux / macOS
-
+**Linux / macOS:**
 ```bash
 source venv/bin/activate
 ```
 
----
-
-## 5. Install Dependencies
+## 4. Install Dependencies
 
 ```bash
 pip install -r backend/requirements.txt
 ```
 
+## 5. Configure Environment Variables
+
+Copy `.env.example` to `.env` inside the `backend/` folder and fill in your values:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+---
+
+# 🌱 Seeding the Database
+
+Run the seed script once to insert the demo user and all required sample data:
+
+```bash
+cd backend
+python seed.py
+```
+
+This script is **idempotent** — running it multiple times will not create duplicate records.
+
+What it seeds:
+- Demo user: `demo@example.com` / `12345678`
+- 4 standard demo notes (Programming, Personal, College, Health)
+- 8 AI sample notes tagged `ai-demo` (required for Part 3 Smart Search)
+
 ---
 
 # 🌍 Environment Variables
 
-Create a `.env` file inside the **backend** folder.
-
-Example:
+Create `backend/.env` using `backend/.env.example` as the template:
 
 ```env
 user=postgres
@@ -503,12 +318,26 @@ dbname=postgres
 SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 
-SECRET_KEY=YOUR_SECRET_KEY
+SECRET_KEY=YOUR_SECRET_KEY_HERE
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
 
 MOCK_AI=1
 ```
+
+| Variable | Description |
+|----------|-------------|
+| `user` | Supabase PostgreSQL username (usually `postgres`) |
+| `password` | Supabase database password |
+| `host` | Supabase host (e.g. `db.xxxx.supabase.co`) |
+| `port` | PostgreSQL port (default `5432`) |
+| `dbname` | Database name (default `postgres`) |
+| `SECRET_KEY` | Random secret for JWT signing |
+| `ALGORITHM` | JWT algorithm (default `HS256`) |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Token expiry in minutes (default `60`) |
+| `MOCK_AI` | Set to `1` for offline Mock AI mode (default). Set to `0` to use a real LLM. |
+
+> **Never commit `.env`** — it is listed in `.gitignore`.
 
 ---
 
@@ -516,1222 +345,795 @@ MOCK_AI=1
 
 ```bash
 cd backend
-
 uvicorn main:app --reload
 ```
 
-Server starts at
+Server starts at: `http://127.0.0.1:8000`
 
-```
-http://127.0.0.1:8000
-```
+Swagger UI: `http://127.0.0.1:8000/docs`
 
-Swagger Documentation
-
-```
-http://127.0.0.1:8000/docs
-```
+Health check: `http://127.0.0.1:8000/health`
 
 ---
 
 # 🌐 Running the Frontend
 
-Open
+Open `frontend/index.html` directly in a browser, or use VS Code Live Server:
 
 ```
-frontend/index.html
+http://127.0.0.1:5500
 ```
 
-or launch using **VS Code Live Server**
+or
 
 ```
 http://127.0.0.1:3000
 ```
 
----
-
-# 📡 REST API Documentation
-
-## User APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | /users | Register User |
-| POST | /login | Login User |
-| PUT | /profile | Update User Profile |
+Both origins are configured in the backend CORS allowed origins list.
 
 ---
 
-## Notes APIs
+# 📡 API Documentation
 
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | /notes | Get All Notes |
-| POST | /notes | Create Note |
-| GET | /notes/{id} | Get Note |
-| PUT | /notes/{id} | Update Note |
-| DELETE | /notes/{id} | Delete Note |
+All protected endpoints require the header: `Authorization: Bearer <token>`
+
+## Authentication
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/users` | No | Register new user |
+| POST | `/login` | No | Login, returns JWT token |
+| PUT | `/profile` | Yes | Update name or email |
+
+## Notes CRUD
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/notes` | Yes | Get all notes (supports `?search=` and `?tag=`) |
+| POST | `/notes` | Yes | Create note + returns AI suggestion |
+| GET | `/notes/{id}` | Yes | Get single note |
+| PUT | `/notes/{id}` | Yes | Update note |
+| DELETE | `/notes/{id}` | Yes | Delete note |
+
+## Search
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/notes/search?keyword=` | Yes | Linear search (keyword in title/content/tag) |
+| GET | `/notes/lookup?title=` | Yes | Binary search — exact title match |
+| GET | `/notes/lookup-recursive?title=` | Yes | Recursive binary search — exact title match |
+| GET | `/notes/quick-find?keyword=` | Yes | Quick Find — title substring match |
+| POST | `/notes/semantic-search` | Yes | Smart Search — semantic similarity |
+
+## AI
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| PUT | `/notes/apply-ai-tag` | Yes | Apply AI suggested tag to a note |
+
+## Import
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/notes/import` | Yes | Bulk import notes from TXT file |
+
+## Reports
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/reports/tag-summary` | Yes | Tags with count > 1 (raw SQL GROUP BY + HAVING) |
+| GET | `/reports/user-notes` | Yes | Total notes for logged-in user (raw SQL JOIN) |
+| GET | `/reports/long-notes` | Yes | Notes above average content length (raw SQL subquery) |
+
+## Utility
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/` | No | API welcome message |
+| GET | `/health` | No | Health check |
+| GET | `/db-test` | No | Database connectivity test |
+| GET | `/docs` | No | Swagger / OpenAPI UI |
 
 ---
 
-## Search APIs
+# 📋 Sample Requests and Responses
 
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | /notes/search | Linear Search |
-| GET | /notes/lookup | Binary Search |
-| GET | /notes/lookup-recursive | Recursive Binary Search |
-| GET | /notes/quick-find | Quick Find |
-| POST | /notes/semantic-search | Semantic Search |
+## Register User
 
----
-
-## AI APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| PUT | /notes/apply-ai-tag | Apply AI Suggested Tag |
-
----
-
-## Reports APIs
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | /reports/tag-summary | Tag Statistics |
-| GET | /reports/user-notes | Total User Notes |
-| GET | /reports/long-notes | Long Notes Report |
-
----
-
-## Import API
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | /notes/import | Import Notes from TXT File |
-
----
-
-
-# 🔐 Authentication Flow
-
-The application uses **JWT (JSON Web Token)** based authentication to secure all protected APIs.
-
-Every user must register and login before accessing any note-related functionality.
-
----
-
-## Authentication Workflow
-
+**Request:**
 ```
-                User
-                  │
-                  ▼
-        Register (/users)
-                  │
-                  ▼
-        Password Hashing
-          Passlib + bcrypt
-                  │
-                  ▼
-      Store User in Database
-                  │
-                  ▼
-          Login (/login)
-                  │
-                  ▼
-      Verify Email & Password
-                  │
-                  ▼
-         Generate JWT Token
-                  │
-                  ▼
-      Return Access Token
-                  │
-                  ▼
-Store Token in Browser (localStorage)
-                  │
-                  ▼
- Authorization: Bearer TOKEN
-                  │
-                  ▼
- Access Protected APIs
+POST /users
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "email": "alice@example.com",
+  "password": "securepass123"
+}
+```
+
+**Response (201):**
+```json
+{
+  "id": 1,
+  "name": "Alice",
+  "email": "alice@example.com",
+  "created_at": "2026-08-07T10:00:00Z"
+}
 ```
 
 ---
 
-## Authentication Security
+## Login
 
-The project protects every note API using:
-
-- JWT Authentication
-- Password Hashing
-- Protected Routes
-- User Authorization
-- Token Verification
-
-This ensures that one user cannot access another user's notes.
-
----
-
-# 📝 CRUD Workflow
-
-The project implements complete CRUD operations.
-
----
-
-## Create Note
-
+**Request:**
 ```
-Frontend
-     │
-     ▼
+POST /login
+Content-Type: application/x-www-form-urlencoded
+
+username=alice@example.com&password=securepass123
+```
+
+**Response (200):**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "name": "Alice",
+  "email": "alice@example.com",
+  "created_at": "2026-08-07T10:00:00Z"
+}
+```
+
+---
+
+## Create Note (with AI Suggestion)
+
+**Request:**
+```
 POST /notes
-     │
-     ▼
-Validate Data
-     │
-     ▼
-Store in Database
-     │
-     ▼
-Generate AI Suggestions
-     │
-     ▼
-Background Indexing
-     │
-     ▼
-Return Response
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "title": "FastAPI Basics",
+  "content": "FastAPI is a modern Python web framework for building APIs.",
+  "tag": "Programming"
+}
+```
+
+**Response (200):**
+```json
+{
+  "note": {
+    "id": 42,
+    "title": "FastAPI Basics",
+    "content": "FastAPI is a modern Python web framework for building APIs.",
+    "tag": "Programming",
+    "owner_id": 1,
+    "created_at": "2026-08-07T10:05:00Z"
+  },
+  "ai_suggestion": {
+    "tags": ["fastapi", "modern", "python"],
+    "summary": "FastAPI is a modern Python web framework for building APIs."
+  }
+}
 ```
 
 ---
 
-## Read Notes
+## Smart Search
 
+**Request:**
 ```
-Frontend
-     │
-     ▼
-GET /notes
-     │
-     ▼
-Authenticate User
-     │
-     ▼
-Fetch User Notes
-     │
-     ▼
-Return JSON
+POST /notes/semantic-search
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "query": "leg day exercise plan"
+}
 ```
 
----
-
-## Update Note
-
+**Response (200):**
+```json
+{
+  "results": [
+    {
+      "score": 0.6439,
+      "note": {
+        "id": 6,
+        "title": "Morning workout plan",
+        "content": "Do 30 minutes of cardio followed by strength training focused on legs and core.",
+        "tag": "ai-demo",
+        "owner_id": 5,
+        "created_at": "2026-08-07T09:00:00Z"
+      }
+    },
+    {
+      "score": 0.5873,
+      "note": {
+        "id": 11,
+        "title": "Gym schedule change",
+        "content": "Switch leg day to Thursday and move the rest day to Sunday this week.",
+        "tag": "ai-demo",
+        "owner_id": 5,
+        "created_at": "2026-08-07T09:00:00Z"
+      }
+    }
+  ]
+}
 ```
-PUT /notes/{id}
-
-↓
-
-Validate Ownership
-
-↓
-
-Update Database
-
-↓
-
-Return Updated Note
-```
-
----
-
-## Delete Note
-
-```
-DELETE /notes/{id}
-
-↓
-
-Verify Owner
-
-↓
-
-Delete Record
-
-↓
-
-Return Success Message
-```
-
----
-
-# 🔍 Searching Algorithms
-
-One of the major objectives of this project was implementing Data Structures & Algorithms in a practical application.
-
----
-
-## 1️⃣ Linear Search
-
-### Purpose
-
-Used for sequential keyword searching.
-
-### Used In
-
-```
-GET /notes/search
-```
-
-### Working
-
-```
-Note1
-
-↓
-
-Note2
-
-↓
-
-Note3
-
-↓
-
-Note4
-
-↓
-
-Keyword Found
-```
-
-### Time Complexity
-
-```
-Best Case
-
-O(1)
-
-Average Case
-
-O(n)
-
-Worst Case
-
-O(n)
-```
-
----
-
-## 2️⃣ Insertion Sort
-
-### Purpose
-
-Sorts notes alphabetically before Binary Search.
-
-### Used In
-
-```
-GET /notes/lookup
-```
-
-### Time Complexity
-
-```
-Best
-
-O(n)
-
-Average
-
-O(n²)
-
-Worst
-
-O(n²)
-```
-
----
-
-## 3️⃣ Binary Search
-
-### Purpose
-
-Efficient searching on sorted notes.
-
-### Used In
-
-```
-GET /notes/lookup
-```
-
-### Working
-
-```
-Sorted Notes
-
-↓
-
-Check Middle
-
-↓
-
-Left / Right
-
-↓
-
-Repeat
-
-↓
-
-Found
-```
-
-### Complexity
-
-```
-Best
-
-O(1)
-
-Average
-
-O(log n)
-
-Worst
-
-O(log n)
-```
-
----
-
-## 4️⃣ Recursive Binary Search
-
-Recursive implementation of Binary Search.
-
-### Used In
-
-```
-GET /notes/lookup-recursive
-```
-
-Instead of loops, the function calls itself until the note is found.
-
-Complexity remains:
-
-```
-O(log n)
-```
-
----
-
-## 5️⃣ Quick Find
-
-Fast title-based searching.
-
-### Used In
-
-```
-GET /notes/quick-find
-```
-
-Designed for instant title matching.
-
----
-
-## 6️⃣ Semantic Search
-
-Unlike traditional search, semantic search understands the **meaning** of the query.
-
-Instead of matching words, it compares vector embeddings.
-
-Workflow
-
-```
-User Query
-
-↓
-
-Embedding Generation
-
-↓
-
-Cosine Similarity
-
-↓
-
-Rank Notes
-
-↓
-
-Return Most Relevant Notes
-```
-
-Libraries Used
-
-- Sentence Transformers
-- Scikit-Learn
-- Cosine Similarity
-
----
-
-# 🤖 Artificial Intelligence Features
-
-The project integrates lightweight AI features to enhance note management.
-
----
-
-## AI Tag Suggestion
-
-Whenever a note is created,
-
-AI analyzes the content and suggests suitable tags.
-
-Example
-
-```
-Input
-
-Learn SQLAlchemy ORM relationships
-
-↓
-
-AI Suggestion
-
-Python
-
-Backend
-
-Database
-```
-
----
-
-## AI Summary
-
-AI also generates a short summary of the note.
-
----
-
-## Semantic Search
-
-Uses embeddings instead of exact keyword matching.
-
-Allows users to search naturally.
-
-Example
-
-Searching
-
-```
-Workout
-```
-
-can also return
-
-```
-Gym
-
-Exercise
-
-Fitness
-
-Cardio
-```
-
-depending on similarity score.
-
----
-
-## Mock AI Support
-
-The project supports Mock AI mode for local development.
-
-This allows testing AI features without requiring external API keys.
-
----
-
-# 📊 Reports Module
-
-The backend includes multiple analytical reports.
 
 ---
 
 ## Tag Summary Report
 
-Endpoint
+**Request:**
+```
+GET /reports/tag-summary
+Authorization: Bearer <token>
+```
+
+**Response (200):**
+```json
+[
+  {"tag": "ai-demo", "count": 8},
+  {"tag": "College", "count": 4},
+  {"tag": "Programming", "count": 3}
+]
+```
+
+Only tags with count > 1 are returned (HAVING clause).
+
+---
+
+# 🔐 Authentication Flow
+
+```
+User fills Register form
+        │
+        ▼
+POST /users
+        │
+        ▼
+Pydantic validates (EmailStr, min_length=8 password)
+        │
+        ▼
+Password hashed with bcrypt
+        │
+        ▼
+User stored in Supabase DB
+        │
+        ▼
+User fills Login form
+        │
+        ▼
+POST /login (form-urlencoded: username + password)
+        │
+        ▼
+Verify email + bcrypt password check
+        │
+        ▼
+JWT token generated (sub = email, exp = 60 min)
+        │
+        ▼
+Token + name + email + created_at returned
+        │
+        ▼
+Frontend stores token in localStorage
+        │
+        ▼
+Every API call: Authorization: Bearer <token>
+        │
+        ▼
+get_current_user() decodes JWT → fetches user from DB
+        │
+        ▼
+Protected API executes
+```
+
+**JWT Configuration** (loaded from `.env`):
+- `SECRET_KEY` — signing key
+- `ALGORITHM` — HS256
+- `ACCESS_TOKEN_EXPIRE_MINUTES` — 60
+
+---
+
+# 📝 CRUD Operations
+
+## Create Note
+`POST /notes` → validates data → inserts into DB → calls `get_ai_response()` → registers background indexing task → returns `{note, ai_suggestion}`.
+
+## Read Notes
+`GET /notes` → authenticates → fetches user's notes → returns JSON array. Supports optional `?search=` and `?tag=` query parameters.
+
+## Update Note
+`PUT /notes/{id}` → verifies ownership → updates title/content/tag → returns updated note.
+
+## Delete Note
+`DELETE /notes/{id}` → verifies ownership → deletes record → returns `{"message": "Note deleted successfully"}`.
+
+---
+
+# 📥 Import Notes
+
+Import multiple notes at once by uploading a `.txt` file.
+
+**File format — each line must be:**
+```
+title|content|tag
+```
+
+**Example (`sample_import.txt`):**
+```
+Complete FastAPI Project|Build and test all FastAPI routes for the capstone project|College
+Review JWT Authentication|Revise token creation, expiry and protected route flow|Programming
+Learn AI Tagging Concepts|Explore mock AI and real LLM tag suggestion techniques|Ideas
+```
+
+**Rules:**
+- Lines not matching the `title|content|tag` format are silently skipped.
+- Empty lines are skipped.
+- All notes are inserted in a **single database commit** for performance.
+
+**Request:**
+```
+POST /notes/import
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+file: sample_import.txt
+```
+
+**Response:**
+```json
+{
+  "message": "Import Successful",
+  "count": 10
+}
+```
+
+A sample file with 10 notes is included at the repository root: `sample_import.txt`.
+
+---
+
+# 📄 Pagination
+
+The frontend paginates all note views — 10 notes per page.
+
+- **Previous** button — disabled on page 1
+- **Next** button — disabled on the last page
+- **Page number buttons** — active page highlighted in red
+- Pagination resets to page 1 whenever notes are reloaded, a search is performed, a category is selected, or a smart search runs
+- Edit and Delete buttons work on every page
+
+Pagination is implemented entirely on the frontend using the full `allNotes` array loaded from `GET /notes`.
+
+---
+
+# 🔍 Search Algorithms
+
+All algorithms are implemented from scratch in `backend/algorithms.py` — no built-in `sorted()`, `.sort()`, or imported search utilities.
+
+## 1. Insertion Sort
+
+Sorts notes alphabetically by title (ascending) before binary search. Implemented with an outer loop and an inner backward-swap loop.
+
+- **Used in:** `GET /notes/lookup`, `GET /notes/lookup-recursive`
+- **Complexity:** O(n) best, O(n²) average/worst
+
+## 2. Linear Search
+
+Sequentially scans all notes. Returns all notes where the keyword appears in title, content, or tag (case-insensitive).
+
+- **Used in:** `GET /notes/search?keyword=`
+- **Complexity:** O(n)
+
+## 3. Binary Search (Iterative)
+
+Searches the alphabetically sorted title list using the iterative midpoint method. Returns the exact matching note or 404.
+
+- **Used in:** `GET /notes/lookup?title=`
+- **Complexity:** O(log n)
+
+## 4. Binary Search (Recursive)
+
+Recursive implementation of binary search. Explicit base case: `if left > right: return None`.
+
+- **Used in:** `GET /notes/lookup-recursive?title=`
+- **Complexity:** O(log n)
+
+## 5. Quick Find
+
+Scans all notes and returns those whose title contains the keyword as a substring. Faster for partial title matching.
+
+- **Used in:** `GET /notes/quick-find?keyword=`
+- **Complexity:** O(n)
+
+---
+
+# 🤖 Artificial Intelligence Features
+
+## Mock AI Mode
+
+Set `MOCK_AI=1` in `.env` (default). No API key, no internet connection, no signup required.
+
+**Mock logic:**
+- Tags: first 3 words from the note content longer than 4 characters
+- Summary: first 20 words of the note content
+
+## Prompt Template
+
+The system prompt used by `get_ai_response()` (verbatim from `backend/ai_service.py`):
+
+```
+Instructions:
+You are an AI assistant that analyzes notes.
+
+Context:
+The note belongs to an internal knowledge base.
+
+Input:
+The user will provide note content.
+
+Constraints:
+Return ONLY valid JSON.
+No explanation.
+No markdown.
+No extra text.
+
+Output Format:
+{
+  "tags": ["tag1", "tag2", "tag3"],
+  "summary": "One sentence summary."
+}
+```
+
+The prompt uses all five required parts: **Instructions**, **Context**, **Input**, **Constraints**, **Output Format**.
+
+## AI Suggestion Flow
+
+1. User submits "Create Note" form
+2. Frontend sends `POST /notes`
+3. Backend inserts the note into the database
+4. `get_ai_response()` is called with the note content
+5. Response is parsed with `json.loads()` — failures are caught and return `null` (note is still created)
+6. Response returned: `{"note": {...}, "ai_suggestion": {"tags": [...], "summary": "..."}}`
+7. Frontend renders an **"AI Suggests"** panel on the new note card showing tags and summary
+8. An **"Apply as tag"** button calls `PUT /notes/{id}` to update the note's tag with the first suggested tag
+
+## Smart Search (Semantic)
+
+Powered by `sentence-transformers` library using the **`all-MiniLM-L6-v2`** model.
+
+**One-time model download:**
+The first run downloads and caches the model weights from HuggingFace (~80MB). An active internet connection is required for this first download only. After that, all runs use the local cache at `~/.cache/huggingface/` — no API key and no internet required.
+
+```bash
+# First run (requires internet, downloads model):
+uvicorn main:app --reload
+
+# All subsequent runs (fully offline):
+uvicorn main:app --reload
+```
+
+**Search flow:**
+1. Query is encoded using `all-MiniLM-L6-v2`
+2. All user notes are encoded (title + content + tag concatenated)
+3. Cosine similarity computed between query and all note embeddings
+4. Notes ranked by similarity score (descending)
+5. Returns top 5 results above threshold 0.30
+
+**Verified results:**
+- Query `"leg day exercise plan"` → "Gym schedule change" in Top 3
+- Query `"dinner ideas with vegetables"` → "Recipe idea" in Top 3
+
+**Frontend:** Smart Search input is separate from the standard keyword search and calls `POST /notes/semantic-search`.
+
+---
+
+# 📊 Reports Module
+
+All three report functions use **raw SQL** executed via `db.execute(text(...))` — not the SQLAlchemy ORM query builder.
+
+## Tag Summary
 
 ```
 GET /reports/tag-summary
 ```
 
-Returns
+Raw SQL with `GROUP BY tag` and `HAVING COUNT(*) > 1`. Returns only tags that appear on more than one note.
 
-- Tag Name
-- Number of Notes
+```sql
+SELECT tag, COUNT(*) AS count
+FROM notes
+WHERE owner_id = :user_id
+GROUP BY tag
+HAVING COUNT(*) > 1
+```
 
----
-
-## User Notes Report
-
-Endpoint
+## User Notes Count
 
 ```
 GET /reports/user-notes
 ```
 
-Returns
+Raw SQL `LEFT JOIN` between `users` and `notes`. Returns the total note count for the logged-in user.
 
-Total notes created by the logged-in user.
+```sql
+SELECT u.id, u.name, u.email, COUNT(n.id) AS note_count
+FROM users u
+LEFT JOIN notes n ON u.id = n.owner_id
+WHERE u.id = :user_id
+GROUP BY u.id, u.name, u.email
+```
 
----
-
-## Long Notes Report
-
-Endpoint
+## Long Notes
 
 ```
 GET /reports/long-notes
 ```
 
-Returns notes whose content length exceeds the configured limit.
+Raw SQL with a **subquery** for average content length. Returns notes whose content is longer than the average content length of all the user's notes.
+
+```sql
+SELECT id, title, content, tag, owner_id, created_at
+FROM notes
+WHERE owner_id = :user_id
+AND LENGTH(content) > (
+    SELECT AVG(LENGTH(content))
+    FROM notes
+    WHERE owner_id = :user_id
+)
+```
 
 ---
 
 # ⚡ Background Tasks
 
-FastAPI BackgroundTasks are used for asynchronous processing.
+After every `POST /notes`, a FastAPI `BackgroundTask` is registered that simulates a 2-second indexing delay:
 
-Current Implementation
-
-```
-Create Note
-
-↓
-
-Return Response Immediately
-
-↓
-
-Background Task Starts
-
-↓
-
-Index Note
-
-↓
-
-Complete
+```python
+def process_note_background(note_id: int):
+    time.sleep(2)
+    logger.info(f"Background indexing completed for Note ID {note_id}")
 ```
 
-Benefits
-
-- Faster Response Time
-- Better User Experience
-- Scalable Design
+The API response returns **immediately** — before the background task finishes. This demonstrates non-blocking background processing.
 
 ---
 
 # 📝 Logging System
 
-Every request passing through the backend is logged.
+Configured in `backend/logger.py`. Logs are written to `backend/app.log` (excluded from Git via `.gitignore`).
 
-The middleware records:
-
-- Request Method
-- API Endpoint
-- Response Status
-- Processing Time
-
-Example
+Every HTTP request is logged by middleware:
 
 ```
-GET /notes
-
-Status = 200
-
-Time = 34ms
+2026-08-07 10:05:23 | INFO | GET /notes Status=200 Time=45.2ms
+2026-08-07 10:05:24 | INFO | POST /notes Status=200 Time=312.7ms
 ```
 
-Global Exception Logging is also implemented.
+The `X-Process-Time` response header is set on every response showing the processing time in milliseconds.
 
 ---
 
 # 🛡️ Security Features
 
-The project follows multiple security best practices.
+| Feature | Implementation |
+|---------|---------------|
+| Password Hashing | Passlib + bcrypt |
+| JWT Authentication | python-jose, HS256, 60-min expiry |
+| Protected Routes | `Depends(get_current_user)` on all note/report endpoints |
+| Owner Verification | All queries filter by `owner_id == current_user.id` |
+| Email Validation | Pydantic `EmailStr` |
+| Input Validation | Pydantic field validators, min/max length |
+| CORS | CORSMiddleware — only frontend origins allowed |
+| Secrets | All secrets in `.env`, never committed |
+| Global Error Handler | Catches all unhandled exceptions, returns 500 JSON |
 
-✔ Password Hashing
-
-✔ JWT Authentication
-
-✔ Protected Routes
-
-✔ Owner Verification
-
-✔ User-specific Notes
-
-✔ Secure Password Storage
-
-✔ Request Validation
-
-✔ Pydantic Validation
-
-✔ SQLAlchemy ORM Protection
-
-✔ Environment Variables
-
-✔ Global Exception Handling
-
-✔ CORS Configuration
+**CORS allowed origins:**
+- `http://127.0.0.1:5500`
+- `http://localhost:5500`
+- `http://127.0.0.1:3000`
+- `http://localhost:3000`
 
 ---
 
+# 📐 Assignment Compliance
+
+This project was built for the **Software Development Engineering with Applied AI Capstone** at Vishlesan I-Hub Foundation, IIT Patna.
+
+## Part 1 — Core App
+
+| Requirement | Implementation |
+|-------------|---------------|
+| SQLAlchemy ORM models (User, Note) | `backend/models.py` |
+| Pydantic validation (EmailStr, min_length, field_validator) | `backend/schemas.py` |
+| CRUD endpoints | `main.py` — POST/GET/PUT/DELETE /notes |
+| owner_id existence check on POST /notes | JWT-based — current user's id used directly |
+| Dependency injection (get_db) | `Depends(get_db)` on all routes |
+| X-Process-Time middleware | `log_requests` middleware in `main.py` |
+| CORS configuration | `CORSMiddleware` in `main.py` |
+| Background task on POST /notes | `process_note_background()` — 2s delay |
+| Bulk import POST /notes/import | Single-commit bulk insert |
+| Raw SQL reports | `crud.py` — tag_summary, user_notes_count, long_notes |
+| Seed dataset | `backend/seed.py` |
+| Frontend: Fetch API, dynamic DOM, no frameworks | `frontend/script.js` |
+| Debounced search (400ms) | `searchInput` event listener |
+| Pagination (10/page) | `renderNotes()`, `renderPagination()` |
+| Responsive layout | CSS `@media (max-width: 1000px)` and `(max-width: 700px)` |
+| Sticky header | `.header { position: sticky; top: 0; }` |
+| No alert()/confirm() | All user feedback via toast and DOM |
+| Event listeners only (no inline onclick) | `addEventListener` throughout |
+
+## Part 2 — Ranking Engine
+
+| Requirement | Implementation |
+|-------------|---------------|
+| Insertion sort (from scratch) | `insertion_sort()` in `algorithms.py` |
+| Iterative binary search | `binary_search()` in `algorithms.py` |
+| Recursive binary search | `binary_search_recursive()` in `algorithms.py` |
+| Linear search with found-flag pattern | `linear_search()` in `algorithms.py` |
+| Quick find | `quick_find()` in `algorithms.py` |
+| GET /notes/search (linear search) | `main.py` |
+| GET /notes/lookup (binary search) | `main.py` |
+| GET /notes/lookup-recursive | `main.py` |
+| GET /notes/quick-find | `main.py` |
+
+## Part 3 — Intelligence Layer
+
+| Requirement | Implementation |
+|-------------|---------------|
+| `get_ai_response()` function | `backend/ai_service.py` |
+| MOCK_AI=1 offline mode | `ai_service.py` — no API key, no internet |
+| 5-part prompt template | `SYSTEM_PROMPT` in `ai_service.py` |
+| AI suggestion on POST /notes | `crud.create_note()` calls `get_ai_response()` |
+| json.loads failure handling | `try/except` → `ai_suggestion = None` |
+| Frontend AI Suggests panel | Create note handler in `script.js` |
+| "Apply as tag" button | Calls `PUT /notes/{id}` in `script.js` |
+| POST /notes/semantic-search | `main.py` + `semantic_search.py` |
+| `all-MiniLM-L6-v2` model | `SentenceTransformer("all-MiniLM-L6-v2")` |
+| Cosine similarity ranking | `sklearn.metrics.pairwise.cosine_similarity` |
+| AI sample notes seeded | `seed.py` — 8 notes, tag=`ai-demo` |
+| Smart Search UI (distinct) | `#smartSearchInput` in header, separate from `#searchInput` |
+| Top-3 verified results | "Gym schedule change" ✅, "Recipe idea" ✅ |
+
+---
 
 # 🧪 Testing Guide
 
-The application was tested module by module to ensure correctness and stability.
+## How to Test via Swagger UI
 
----
+1. Start the backend: `uvicorn main:app --reload`
+2. Open `http://127.0.0.1:8000/docs`
+3. Register a user: `POST /users`
+4. Login: `POST /login` → copy `access_token`
+5. Click **Authorize** → enter `Bearer <token>`
+6. Test all endpoints
 
-## Authentication Testing
+## Validation Error Examples
 
-| Test Case | Status |
-|-----------|--------|
-| User Registration | ✅ Passed |
-| Duplicate Email Validation | ✅ Passed |
-| Login with Valid Credentials | ✅ Passed |
-| Login with Invalid Credentials | ✅ Passed |
-| JWT Authentication | ✅ Passed |
-| Protected Routes | ✅ Passed |
+**Missing required field (422):**
+```json
+POST /notes  body: {"content": "missing title", "tag": "Work"}
+→ 422 Unprocessable Entity
+{"detail": [{"loc": ["body","title"],"msg":"Field required"}]}
+```
 
----
+**Malformed email (422):**
+```json
+POST /users  body: {"name":"Test","email":"notanemail","password":"pass1234"}
+→ 422 Unprocessable Entity
+```
 
-## Notes CRUD Testing
+**Password too short (422):**
+```json
+POST /users  body: {"name":"Test","email":"t@t.com","password":"short"}
+→ 422 Unprocessable Entity
+```
 
-| Test Case | Status |
-|-----------|--------|
-| Create Note | ✅ Passed |
-| Read Notes | ✅ Passed |
-| Update Note | ✅ Passed |
-| Delete Note | ✅ Passed |
-| User-specific Notes | ✅ Passed |
+**Duplicate email (400):**
+```json
+POST /users  (existing email)
+→ 400 Bad Request  {"detail": "Email already registered"}
+```
 
----
+**Missing token (401):**
+```json
+GET /notes  (no Authorization header)
+→ 401 Unauthorized
+```
 
-## Search Testing
-
-| Feature | Status |
-|----------|--------|
-| Linear Search | ✅ Passed |
-| Binary Search | ✅ Passed |
-| Recursive Binary Search | ✅ Passed |
-| Quick Find | ✅ Passed |
-| Semantic Search | ✅ Passed |
-
----
-
-## AI Testing
-
-| Feature | Status |
-|----------|--------|
-| AI Tag Suggestion | ✅ Passed |
-| AI Summary | ✅ Passed |
-| Mock AI | ✅ Passed |
-
----
-
-## Import Testing
+## Test Checklist
 
 | Feature | Status |
-|----------|--------|
-| TXT File Import | ✅ Passed |
-| Multiple Notes Import | ✅ Passed |
-| Invalid Lines Handling | ✅ Passed |
-
----
-
-## Reports Testing
-
-| Report | Status |
 |---------|--------|
-| Tag Summary | ✅ Passed |
-| User Notes Report | ✅ Passed |
-| Long Notes Report | ✅ Passed |
+| Register | ✅ |
+| Login (valid) | ✅ |
+| Login (invalid) | ✅ 401 |
+| Duplicate email | ✅ 400 |
+| JWT Protected Routes | ✅ 401 without token |
+| Create Note + AI suggestion | ✅ |
+| Read Notes | ✅ |
+| Update Note | ✅ |
+| Delete Note | ✅ |
+| Import Notes (TXT) | ✅ |
+| Linear Search | ✅ |
+| Binary Search | ✅ |
+| Recursive Binary Search | ✅ |
+| Quick Find | ✅ |
+| Smart Search | ✅ |
+| Tag Summary Report | ✅ |
+| User Notes Report | ✅ |
+| Long Notes Report | ✅ |
+| Pagination | ✅ |
+| Profile + Member Since date | ✅ |
+| Apply as tag | ✅ |
+| X-Process-Time header | ✅ |
+| Background task (non-blocking) | ✅ |
 
 ---
 
 # 🐞 Development Journey & Bug Fixes
 
-During development, several real-world issues were encountered and resolved.
+Key challenges encountered and resolved during development:
 
----
+**1. Database Migration** — Project initially used SQLite, later migrated to Supabase PostgreSQL. Updated connection string to use `psycopg` (v3) driver with `sslmode=require`.
 
-## 1. Database Migration
+**2. Login/Logout Refresh Issue** — After login, dashboard required a manual browser refresh. Fixed by making the `DOMContentLoaded` handler `async` and `await`-ing `loadNotes()`.
 
-### Problem
+**3. Import Notes Button** — Import button inside the form triggered form submission. Fixed by setting `type="button"`.
 
-Initially, the project was developed using **MySQL**.
+**4. CORS Issue** — Frontend showed "Failed to Fetch". Fixed by configuring `CORSMiddleware` with the exact frontend origins.
 
-Later, the database was migrated to **Supabase PostgreSQL**.
+**5. Import Performance** — Importing 10 notes triggered 10 separate database commits and 10 AI calls. Fixed by using `db.add_all()` with a single commit and no AI on bulk import.
 
-### Solution
+**6. AI Suggestion Panel (Pagination)** — When a user had more than 10 notes, the newly created note's card was on a later page and the AI panel never rendered. Fixed by computing the target page and navigating to it before querying the DOM.
 
-- Updated SQLAlchemy connection string
-- Installed PostgreSQL driver (`psycopg2-binary`)
-- Modified environment variables
-- Successfully connected FastAPI with Supabase PostgreSQL
+**7. Edit Note — Custom Tag Loss** — When editing a note with a custom/imported tag not in the dropdown, the tag was silently wiped to empty on save. Fixed by detecting dropdown mismatch and falling back to "Others" + custom input.
 
----
+**8. Raw SQL Reports** — Initial implementation used the SQLAlchemy ORM query builder. Rewritten to use `db.execute(text(...))` with proper `GROUP BY`, `HAVING`, `JOIN`, and subquery as required by the assignment.
 
-## 2. Login / Logout Refresh Issue
-
-### Problem
-
-After login, the **Profile** and **Logout** buttons did not work until the page was refreshed.
-
-### Cause
-
-Event listeners and authentication state were not synchronized after successful login.
-
-### Solution
-
-- Updated frontend authentication flow
-- Reloaded user state after login
-- Fixed event binding
-- Removed unnecessary initialization calls
-
----
-
-## 3. Import Notes Button Issue
-
-### Problem
-
-Clicking **Import Notes** displayed:
-
-Please fill in this field.
-
-### Cause
-
-The Import button was inside the note creation form and behaved like a submit button.
-
-### Solution
-
-- Changed Import button to `type="button"`
-- Prevented default form submission
-- Successfully imported TXT files
-
----
-
-## 4. Supabase Connection Errors
-
-### Problem
-
-Database connection failed while configuring Supabase.
-
-### Cause
-
-Incorrect database credentials and connection configuration.
-
-### Solution
-
-- Regenerated database password
-- Updated `.env`
-- Configured PostgreSQL connection correctly
-- Verified connection using SQLAlchemy
-
----
-
-## 5. Bcrypt Compatibility Issue
-
-### Problem
-
-Password hashing generated compatibility errors during authentication.
-
-### Solution
-
-Installed compatible package versions and verified secure password hashing.
-
----
-
-## 6. Unauthorized API Requests
-
-### Problem
-
-Swagger returned:
-
-401 Unauthorized
-
-### Cause
-
-JWT token was not provided.
-
-### Solution
-
-Used Swagger **Authorize** with Bearer Token to access protected APIs.
-
----
-
-## 7. Main Application Import Error
-
-### Problem
-
-FastAPI failed to start because the application was executed from the wrong directory.
-
-### Solution
-
-Started Uvicorn from the backend directory.
-
----
-
-## 8. CORS Issue
-
-### Problem
-
-Frontend displayed:
-
-Failed to Fetch
-
-### Solution
-
-Configured FastAPI CORSMiddleware for frontend origins.
-
----
-
-## 9. Frontend Rendering Issue
-
-### Problem
-
-Notes were successfully returned from the backend but were not rendered correctly.
-
-### Solution
-
-Verified API responses, fixed rendering logic, and synchronized frontend state.
-
----
-
-## 10. Logging Optimization
-
-### Problem
-
-The log file continuously increased in size during development.
-
-### Solution
-
-Retained logging for debugging while clearing log files before project submission.
-
----
-
-# 🚀 Performance Optimizations
-
-Several optimizations were implemented to improve the application's performance.
-
-- SQLAlchemy ORM
-- Background Tasks
-- JWT Authentication
-- Semantic Search
-- FastAPI Dependency Injection
-- Request Logging
-- Processing Time Middleware
-- Efficient Searching Algorithms
-
----
-
-# 🖥️ Application Walkthrough
-
-The application includes the following user interfaces:
-
-- Login
-- Register
-- Dashboard
-- Create Note
-- Edit Note
-- Delete Note
-- Import Notes
-- AI Search
-- Smart Search
-- Profile
-- Reports
-- Swagger Documentation
-
-All features can be tested by running the backend and opening the frontend in a browser.
+**9. Smart Search — Empty Results** — AI sample notes were not seeded for the demo user. Fixed by updating `seed.py` to seed all 8 `AI_SAMPLE_NOTES` with `tag="ai-demo"` for the demo user.
 
 ---
 
 # 🔮 Future Improvements
 
-The current project provides a strong foundation for future enhancements.
-
-Possible improvements include:
-
-- OpenAI / Gemini Integration
-- Real AI-based Auto Categorization
-- Image Attachments
-- Voice Notes
-- Rich Text Editor
-- Markdown Support
-- Note Sharing
-- Team Collaboration
-- Cloud File Storage
-- Mobile Application
-- Offline Support
-- Notification System
-- Email Verification
-- Password Reset
-- Docker Deployment
-- CI/CD Pipeline
-
----
-
-# 📖 Learning Outcomes
-
-This project helped strengthen knowledge of:
-
-- REST API Development
-- FastAPI
-- SQLAlchemy ORM
-- Supabase PostgreSQL
-- JWT Authentication
-- AI Integration
-- Semantic Search
-- Search Algorithms
-- Background Tasks
-- Logging
-- Responsive Frontend Development
-- Full Stack Project Architecture
+- OpenAI / Gemini real LLM integration
+- Real-time auto-tagging as user types
+- Rich text / Markdown editor
+- Note sharing and team collaboration
+- Cloud file attachments
+- Mobile application (React Native)
+- Email verification and password reset
+- Docker deployment + CI/CD pipeline
 
 ---
 
 # 👨‍💻 Author
 
-## Manish Kevat
+**Manish Kevat**
 
-**Full Stack Web Developer**
+Full Stack Web Developer
 
-### Skills
-
-- Python
-- FastAPI
-- SQLAlchemy
-- PostgreSQL
-- Supabase
-- HTML
-- CSS
-- JavaScript
-- REST APIs
-- JWT Authentication
-
-GitHub
-
-https://github.com/manish-7610
-
+GitHub: [https://github.com/manish-7610](https://github.com/manish-7610)
 
 ---
 
 # 🙏 Acknowledgements
 
-This project was developed as part of the
+This project was developed as part of the **Software Development Engineering with Applied AI Capstone Project**.
 
-**Software Development Engineering with Applied AI Capstone Project**
-
-Special thanks to:
-
-- Vishlesan I-Hub Foundation
-- IIT Patna
-- Faculty Members
-- Mentors
-- Teaching Assistants
-- Open Source Community
-
-for providing valuable learning resources and guidance throughout the project.
+Special thanks to Vishlesan I-Hub Foundation, IIT Patna, faculty members, mentors, teaching assistants, and the open source community.
 
 ---
 
 # 📜 License
 
-This project is developed for educational and learning purposes.
+This project is developed for educational and learning purposes only.
 
 ---
-
-# 🎯 Conclusion
-
-**Zomato Notes** is a modern Full Stack AI-powered Note Management System that combines secure authentication, efficient database management, advanced search algorithms, semantic AI search, background processing, reporting, and a responsive frontend into a single application.
-
-The project demonstrates practical implementation of modern backend development concepts including REST APIs, SQLAlchemy ORM, Supabase PostgreSQL integration, JWT Authentication, Artificial Intelligence features, and software engineering best practices.
-
-Beyond implementing core CRUD functionality, this project focuses on solving real-world problems through efficient searching techniques, AI-assisted note organization, and scalable architecture.
-
-This capstone project represents the successful integration of Full Stack Development, Database Engineering, AI Concepts, and Software Engineering principles into a production-style application.
-
----
-# 📊 Project Statistics
-
-| Category | Details |
-|----------|---------|
-| Project Type | Full Stack Web Application |
-| Backend Framework | FastAPI |
-| Frontend | HTML, CSS, JavaScript |
-| Database | Supabase PostgreSQL |
-| ORM | SQLAlchemy |
-| Authentication | JWT |
-| AI Integration | Sentence Transformers + Mock AI |
-| Search Algorithms | Linear Search, Binary Search, Recursive Binary Search, Insertion Sort |
-| Reports | 3 |
-| CRUD Operations | Complete |
-| API Endpoints | 15+ |
-| Protected APIs | Yes |
-| Responsive UI | Yes |
-
----
-
-# 🏗️ Software Engineering Concepts Implemented
-
-This project demonstrates the practical implementation of several software engineering concepts, including:
-
-- RESTful API Design
-- MVC-inspired Project Structure
-- CRUD Operations
-- Authentication & Authorization
-- Database Normalization
-- SQLAlchemy ORM
-- Dependency Injection
-- Exception Handling
-- Logging
-- Middleware
-- Background Tasks
-- Search Algorithms
-- AI Integration
-- Semantic Search
-- Responsive UI Design
-
----
-
-# 🔄 Development Workflow
-
-The project was developed incrementally with continuous testing and debugging.
-
-Development phases included:
-
-1. Backend API Development
-2. Database Integration
-3. Authentication Module
-4. CRUD Operations
-5. AI Integration
-6. Search Algorithms
-7. Reporting APIs
-8. Frontend Development
-9. Frontend-Backend Integration
-10. Bug Fixing & Optimization
-11. Documentation
-
----
-
-# ✅ Final Project Checklist
-
-### Backend
-
-- [x] FastAPI Setup
-- [x] SQLAlchemy ORM
-- [x] Supabase PostgreSQL Integration
-- [x] JWT Authentication
-- [x] CRUD APIs
-- [x] Import Notes API
-- [x] Semantic Search
-- [x] AI Tag Suggestions
-- [x] Reports APIs
-- [x] Background Tasks
-- [x] Logging
-- [x] Exception Handling
-- [x] Middleware
-
----
-
-### Frontend
-
-- [x] Login
-- [x] Register
-- [x] Dashboard
-- [x] Create Note
-- [x] Edit Note
-- [x] Delete Note
-- [x] Search Notes
-- [x] Smart Search
-- [x] Import Notes
-- [x] Dynamic Categories
-- [x] Profile
-- [x] Toast Notifications
-- [x] Loading Animation
-- [x] Responsive Layout
-
----
-
-### Algorithms
-
-- [x] Linear Search
-- [x] Binary Search
-- [x] Recursive Binary Search
-- [x] Insertion Sort
-- [x] Semantic Similarity Search
-
----
-
-### Testing
-
-- [x] Authentication Tested
-- [x] CRUD Tested
-- [x] Search Tested
-- [x] AI Tested
-- [x] Import Tested
-- [x] Reports Tested
-- [x] Frontend Integration Tested
-
----
-
-# 💡 Key Learnings
-
-During the development of this capstone project, I gained hands-on experience in:
-
-- Designing REST APIs with FastAPI
-- Managing relational databases using SQLAlchemy ORM
-- Migrating from MySQL to Supabase PostgreSQL
-- Implementing JWT-based authentication and authorization
-- Integrating AI-powered semantic search
-- Applying searching algorithms in real-world scenarios
-- Building responsive frontend interfaces using HTML, CSS, and JavaScript
-- Debugging frontend-backend integration issues
-- Writing clean, modular, and maintainable code
-- Documenting software projects professionally
-
----
-
-# 📬 Feedback
-
-Suggestions, improvements, and contributions are always welcome.
-
-If you have ideas to improve this project, feel free to open an Issue or submit a Pull Request on GitHub.
-
----
-
-# ⭐ Support
-
-If you found this project helpful:
-
-- ⭐ Star this repository
-- 🍴 Fork the repository
-- 🛠️ Suggest improvements
-- 💬 Share feedback
-
-Your support is greatly appreciated!
-
----
-
-# 🎉 Thank You
-
-Thank you for taking the time to explore this project.
-
-This capstone represents my practical learning journey in Full Stack Development, Backend Engineering, Database Design, Authentication, AI Integration, and Software Engineering.
-
-I hope you find this project useful and informative.
-
-Happy Coding! 🚀

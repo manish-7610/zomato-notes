@@ -8,46 +8,6 @@ let debounceTimer;
 const BASE_URL = "http://127.0.0.1:8000";
 
 /* =====================================
-        JWT TOKEN
-===================================== */
-
-function saveToken(token){
-
-    localStorage.setItem("token",token);
-
-}
-
-function getToken(){
-
-    return localStorage.getItem("token");
-
-}
-
-function removeToken(){
-
-    localStorage.removeItem("token");
-
-}
-
-/* =====================================
-        AUTH HEADER
-===================================== */
-
-function authHeader(){
-
-    return {
-
-        "Authorization":"Bearer " + getToken(),
-
-        "Content-Type":"application/json"
-
-    }
-
-}
-
-
-
-/* =====================================
         DOM
 ===================================== */
 
@@ -128,11 +88,7 @@ function hideLoader(){
         INIT
 ===================================== */
 
-window.addEventListener("DOMContentLoaded",()=>{
-
-    console.log("Frontend Ready");
-
-    loadCategoryTree();
+window.addEventListener("DOMContentLoaded", async ()=>{
 
     tag.addEventListener("change",()=>{
 
@@ -163,7 +119,7 @@ if(getToken()){
     logoutBtn.style.display="inline-block";
     profileBtn.style.display="inline-block";
 
-    loadNotes();
+    await loadNotes();
 
 }else{
 
@@ -185,6 +141,14 @@ if(getToken()){
 
 let allNotes = [];
 let activeCategory = "All Tags";
+
+// ===============================
+// Pagination State
+// ===============================
+
+let currentPage = 1;
+const NOTES_PER_PAGE = 10;
+let currentDisplayNotes = [];
 
 async function loadCategoryTree() {
 
@@ -220,6 +184,8 @@ async function loadCategoryTree() {
 
         activeCategory = "All Tags";
 
+        currentPage = 1;
+
         renderNotes(allNotes);
 
         loadCategoryTree();
@@ -248,6 +214,8 @@ async function loadCategoryTree() {
         li.onclick = () => {
 
             activeCategory = tag;
+
+            currentPage = 1;
 
             const filtered = allNotes.filter(
                 note => note.tag === tag
@@ -478,8 +446,14 @@ async function login(email,password){
 
         localStorage.setItem("name", data.name);
         localStorage.setItem("email", data.email);
+        localStorage.setItem("created_at", data.created_at || "");
 
         authModal.style.display="none";
+
+        // Clear auth form fields so they are clean on next open
+        emailInput.value = "";
+        passwordInput.value = "";
+        nameInput.value = "";
 
 loginBtn.style.display = "none";
 
@@ -511,6 +485,10 @@ logoutBtn.addEventListener("click", () => {
 
     removeToken();
 
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("created_at");
+
     profileModal.style.display = "none";
 
     editProfileModal.style.display = "none";
@@ -526,6 +504,17 @@ logoutBtn.addEventListener("click", () => {
     notesContainer.innerHTML = "";
 
     allNotes = [];
+
+    activeCategory = "All Tags";
+
+    currentPage = 1;
+
+    currentDisplayNotes = [];
+
+    loadCategoryTree();
+
+    const paginationEl = document.getElementById("pagination");
+    if (paginationEl) paginationEl.innerHTML = "";
 
     showToast("Logged Out");
 
@@ -591,6 +580,9 @@ editProfileForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
+    // Capture the email before the update to detect if it changed
+    const previousEmail = localStorage.getItem("email");
+
     try{
 
         const response = await fetch(`${BASE_URL}/profile`,{
@@ -628,13 +620,52 @@ editProfileForm.addEventListener("submit", async (e) => {
 
         profileEmail.textContent = user.email;
 
-        await loadNotes();
-
         editProfileModal.style.display = "none";
 
-        profileModal.style.display = "flex";
+        // If the email changed, the existing JWT is now invalid (it stores
+        // the old email as the "sub" claim). Force the user to log in again.
+        if (user.email !== previousEmail) {
 
-        showToast("Profile Updated");
+            removeToken();
+
+            localStorage.removeItem("name");
+
+            localStorage.removeItem("email");
+
+            localStorage.removeItem("created_at");
+
+            allNotes = [];
+
+            activeCategory = "All Tags";
+
+            currentPage = 1;
+
+            currentDisplayNotes = [];
+
+            notesContainer.innerHTML = "";
+
+            loadCategoryTree();
+
+            const paginationEl = document.getElementById("pagination");
+            if (paginationEl) paginationEl.innerHTML = "";
+
+            logoutBtn.style.display = "none";
+
+            profileBtn.style.display = "none";
+
+            loginBtn.style.display = "inline-block";
+
+            showToast("Email changed. Please log in again.");
+
+        } else {
+
+            await loadNotes();
+
+            profileModal.style.display = "flex";
+
+            showToast("Profile Updated");
+
+        }
 
     }
 
@@ -693,6 +724,8 @@ async function loadNotes(){
 
     showLoader();
 
+    error.textContent = "";
+
     try{
 
         const response = await fetch(`${BASE_URL}/notes`,{
@@ -713,7 +746,17 @@ profileEmail.textContent = localStorage.getItem("email") || "Unknown";
 
 profileName.textContent = localStorage.getItem("name") || "User";
 
-profileJoined.textContent = "2026";
+const rawDate = localStorage.getItem("created_at");
+if (rawDate) {
+    const d = new Date(rawDate);
+    profileJoined.textContent = d.toLocaleDateString("en-GB", {
+        day: "2-digit", month: "long", year: "numeric"
+    });
+} else {
+    profileJoined.textContent = "—";
+}
+
+        currentPage = 1;
 
         loadCategoryTree();
 
@@ -721,9 +764,9 @@ profileJoined.textContent = "2026";
 
     }
 
-    catch(error){
+    catch(err){
 
-        console.log(error);
+        error.textContent = "Failed to load notes. Please check your connection and try again.";
 
     }
 
@@ -739,25 +782,27 @@ profileJoined.textContent = "2026";
 
 function searchNotes(){
 
-    const keyword = searchInput.value.toLowerCase();
+    const keyword = searchInput.value.trim().toLowerCase();
 
-    const cards = document.querySelectorAll(".note-card");
+    if(keyword === ""){
 
-    cards.forEach(card=>{
+        currentPage = 1;
 
-        const text = card.innerText.toLowerCase();
+        renderNotes(allNotes);
 
-        if(text.includes(keyword)){
+        return;
 
-            card.style.display="block";
+    }
 
-        }else{
+    const filtered = allNotes.filter(note =>
+        note.title.toLowerCase().includes(keyword) ||
+        note.content.toLowerCase().includes(keyword) ||
+        note.tag.toLowerCase().includes(keyword)
+    );
 
-            card.style.display="none";
+    currentPage = 1;
 
-        }
-
-    });
+    renderNotes(filtered);
 
 }
 searchInput.addEventListener("input", () => {
@@ -766,15 +811,25 @@ searchInput.addEventListener("input", () => {
 
     debounceTimer = setTimeout(() => {
 
-        console.log("Searching...");
         searchNotes();
-
 
     }, 400);
 
 });
 
-smartSearchInput.addEventListener("input", smartSearch);
+let smartDebounceTimer;
+
+smartSearchInput.addEventListener("input", () => {
+
+    clearTimeout(smartDebounceTimer);
+
+    smartDebounceTimer = setTimeout(() => {
+
+        smartSearch();
+
+    }, 400);
+
+});
 
 importBtn.addEventListener("click", importNotes);
 
@@ -808,8 +863,7 @@ async function smartSearch(){
 
 const data = await response.json();
 
-console.log(data.results);
-console.log(data.results[0]);
+currentPage = 1;
 
 renderNotes(data.results);
 
@@ -822,9 +876,6 @@ renderNotes(data.results);
     }
 
 }
-
-smartSearchInput.addEventListener("input", smartSearch);
-
 
 async function importNotes(e) {
 
@@ -842,8 +893,6 @@ async function importNotes(e) {
     formData.append("file", file);
 
     try {
-
-        console.log("Token:", getToken());
 
         const response = await fetch(`${BASE_URL}/notes/import`, {
 
@@ -865,8 +914,6 @@ async function importNotes(e) {
 
         showToast("Notes Imported Successfully");
 
-        // loadNotes();
-
         importFile.value = "";
 
         await loadNotes();
@@ -883,6 +930,9 @@ async function importNotes(e) {
 
 function renderNotes(notes){
 
+    // Store the full current display set for pagination
+    currentDisplayNotes = notes;
+
     notesContainer.innerHTML="";
 
     if(notes.length===0){
@@ -891,16 +941,24 @@ function renderNotes(notes){
             <p>No Notes Found</p>
         `;
 
+        renderPagination(0);
+
         return;
 
     }
 
-    notes.forEach(item => {
+    // Slice the notes for the current page
+    const start = (currentPage - 1) * NOTES_PER_PAGE;
+    const end = start + NOTES_PER_PAGE;
+    const pageNotes = notes.slice(start, end);
+
+    pageNotes.forEach(item => {
 
     const note = item.note || item;
 
     const card = document.createElement("div");
     card.className = "note-card";
+    card.dataset.id = note.id;
 
     const title = document.createElement("h3");
     title.textContent = note.title;
@@ -941,6 +999,65 @@ deleteBtn.addEventListener("click", () => {
     notesContainer.appendChild(card);
 
 });
+
+    renderPagination(notes.length);
+
+}
+
+
+/* ===============================
+        PAGINATION
+================================ */
+
+function renderPagination(totalNotes) {
+
+    const paginationEl = document.getElementById("pagination");
+
+    if (!paginationEl) return;
+
+    paginationEl.innerHTML = "";
+
+    const totalPages = Math.ceil(totalNotes / NOTES_PER_PAGE);
+
+    if (totalPages <= 1) return;
+
+    // Previous button
+    const prevBtn = document.createElement("button");
+    prevBtn.textContent = "← Prev";
+    prevBtn.className = "page-btn" + (currentPage === 1 ? " page-btn-disabled" : "");
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderNotes(currentDisplayNotes);
+        }
+    });
+    paginationEl.appendChild(prevBtn);
+
+    // Page number buttons
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement("button");
+        pageBtn.textContent = i;
+        pageBtn.className = "page-btn" + (i === currentPage ? " page-btn-active" : "");
+        pageBtn.addEventListener("click", () => {
+            currentPage = i;
+            renderNotes(currentDisplayNotes);
+        });
+        paginationEl.appendChild(pageBtn);
+    }
+
+    // Next button
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "Next →";
+    nextBtn.className = "page-btn" + (currentPage === totalPages ? " page-btn-disabled" : "");
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderNotes(currentDisplayNotes);
+        }
+    });
+    paginationEl.appendChild(nextBtn);
 
 }
 
@@ -1025,8 +1142,6 @@ noteForm.addEventListener("submit", async (e) => {
 
         const data = await response.json();
 
-        console.log(data);
-
         showToast("Note Created Successfully");
 
         noteForm.reset();
@@ -1036,7 +1151,94 @@ noteForm.addEventListener("submit", async (e) => {
 
         document.getElementById("tag").value = "";
 
-        loadNotes();
+        await loadNotes();
+
+        // Assignment requirement: render AI suggestion on the new note card
+        // with an "Apply as tag" button that calls PUT /notes/{id}
+        if (data.ai_suggestion && data.note) {
+
+            const newNoteId = data.note.id;
+
+            // Ensure the new note's page is visible before querying the DOM.
+            // After loadNotes() resets currentPage to 1, the new note may be
+            // on a later page if the user has more than 10 notes.
+            const noteIndex = allNotes.findIndex(n => n.id === newNoteId);
+            if (noteIndex !== -1) {
+                const targetPage = Math.ceil((noteIndex + 1) / NOTES_PER_PAGE);
+                if (targetPage !== currentPage) {
+                    currentPage = targetPage;
+                    renderNotes(allNotes);
+                }
+            }
+
+            const targetCard = notesContainer.querySelector(`[data-id="${newNoteId}"]`);
+
+            if (targetCard) {
+
+                const aiBox = document.createElement("div");
+                aiBox.className = "ai-box";
+
+                const aiTitle = document.createElement("h4");
+                aiTitle.textContent = "🤖 AI Suggests";
+
+                const aiSummary = document.createElement("p");
+                aiSummary.textContent = "Summary: " + data.ai_suggestion.summary;
+
+                const aiTags = document.createElement("p");
+                aiTags.textContent = "Tags: " + data.ai_suggestion.tags.join(", ");
+
+                const applyBtn = document.createElement("button");
+                applyBtn.textContent = "Apply as tag";
+                applyBtn.className = "ai-btn";
+
+                applyBtn.addEventListener("click", async () => {
+
+                    const firstTag = data.ai_suggestion.tags[0];
+
+                    if (!firstTag) return;
+
+                    try {
+
+                        const res = await fetch(`${BASE_URL}/notes/${newNoteId}`, {
+
+                            method: "PUT",
+
+                            headers: authHeaders(),
+
+                            body: JSON.stringify({
+                                title: data.note.title,
+                                content: data.note.content,
+                                tag: firstTag
+                            })
+
+                        });
+
+                        if (!res.ok) throw new Error("Apply tag failed");
+
+                        showToast("Tag applied: " + firstTag);
+
+                        aiBox.remove();
+
+                        await loadNotes();
+
+                    } catch (err) {
+
+                        showToast(err.message);
+
+                    }
+
+                });
+
+                aiBox.appendChild(aiTitle);
+                aiBox.appendChild(aiSummary);
+                aiBox.appendChild(aiTags);
+                aiBox.appendChild(applyBtn);
+
+                targetCard.appendChild(aiBox);
+
+            }
+
+        }
 
     }
 
@@ -1051,20 +1253,11 @@ noteForm.addEventListener("submit", async (e) => {
 
 
 
-async function editNote(id){
+function editNote(id){
 
     try{
 
-        const response = await fetch(
-            `${BASE_URL}/notes`,
-            {
-                headers: authHeaders()
-            }
-        );
-
-        const notes = await response.json();
-
-        const note = notes.find(n => n.id === id);
+        const note = allNotes.find(n => n.id === id);
 
         if(!note){
             return;
@@ -1074,7 +1267,19 @@ async function editNote(id){
 
         document.getElementById("content").value = note.content;
 
-        document.getElementById("tag").value = note.tag;
+        const tagSelect = document.getElementById("tag");
+        tagSelect.value = note.tag;
+
+        // If the tag doesn't match any dropdown option, fall back to "Others"
+        // and show the custom category input with the original tag value
+        if (tagSelect.value !== note.tag) {
+            tagSelect.value = "Others";
+            customCategory.classList.remove("hidden");
+            customCategory.value = note.tag;
+        } else {
+            customCategory.classList.add("hidden");
+            customCategory.value = "";
+        }
 
         editingNoteId = id;
 
@@ -1125,13 +1330,11 @@ async function updateNote(id, title, content, tag) {
 
     cancelEditBtn.classList.add("hidden");
 
-    loadNotes();
-
 }
 
 
 
-async function deleteNote(id){
+function deleteNote(id){
 
     deleteNoteId = id;
 
@@ -1220,46 +1423,6 @@ async function deleteNoteConfirmed(id){
 
 }
 
-
-
-
-// async function deleteNote(id){
-
-//     const ok = confirm("Delete this note?");
-
-//     if(!ok){
-//         return;
-//     }
-
-//     try{
-
-//         const response = await fetch(`${BASE_URL}/notes/${id}`,{
-
-//             method:"DELETE",
-
-//             headers:authHeaders()
-
-//         });
-
-//         if(!response.ok){
-
-//             throw new Error("Delete Failed");
-
-//         }
-
-//         showToast("Note Deleted");
-
-//         loadNotes();
-
-//     }
-
-//     catch(error){
-
-//         showToast(error.message);
-
-//     }
-
-// }
 
 
 

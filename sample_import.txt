@@ -1,10 +1,10 @@
-Complete FastAPI project
-Practice SQLAlchemy relationships
-Study Semantic Search algorithms
-Prepare capstone presentation
-Review JWT Authentication
-Learn AI tagging concepts
-Optimize database queries
-Finish frontend UI improvements
-Test Import Notes feature
-Deploy project to GitHub
+Complete FastAPI Project|Build and test all FastAPI routes for the capstone project|College
+Practice SQLAlchemy Relationships|Study one-to-many and many-to-many ORM relationships|Programming
+Study Semantic Search Algorithms|Understand cosine similarity and sentence transformers|College
+Prepare Capstone Presentation|Create slides covering architecture, features and demo flow|College
+Review JWT Authentication|Revise token creation, expiry and protected route flow|Programming
+Learn AI Tagging Concepts|Explore mock AI and real LLM tag suggestion techniques|Ideas
+Optimize Database Queries|Use SQLAlchemy filters and indexes for faster queries|Programming
+Finish Frontend UI Improvements|Polish note cards, modals and category tree styling|Work
+Test Import Notes Feature|Verify that pipe-delimited TXT files import correctly|Work
+Deploy Project to GitHub|Push final codebase to GitHub with updated README|College

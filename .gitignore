@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .env
 *.sql
+*.log
+test_token.txt
